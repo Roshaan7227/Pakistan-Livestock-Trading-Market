@@ -1,0 +1,237 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ livestock.breed }} {{ livestock.species }} - Pakistan Livestock</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'viewdetails.css' %}">
+</head>
+<body>
+
+{% csrf_token %}
+
+<header class="navbar">
+    <div class="logo">
+        <img src="{% static 'images/logo.jpg' %}" alt="Pakistan Livestock Logo" class="logo-img">
+        Pak<span>Livestock</span>
+    </div>
+    <nav>
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'livestock' %}">Livestock</a>
+        <a href="{% url 'search_livestock' %}" class="search">Search Animal</a>
+                <a href="{% url 'blog' %}">Blog</a>
+
+        {% if user.is_authenticated %}
+            <a href="{% url 'favorite_list' %}">Favorites</a>
+            <a href="{% url 'contact' %}">Contact Us</a>
+            <a href="{% url 'add_livestock' %}">Add Livestock</a>
+            <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+        {% else %}
+            <a href="{% url 'login' %}" class="login-btn">Login</a>
+        {% endif %}
+    </nav>
+</header>
+
+<section class="detail-hero">
+    <div class="detail-hero-content">
+        <h1>{{ livestock.breed }}</h1>
+        <p>{{ livestock.species|title }} • {{ livestock.location }}</p>
+    </div>
+</section>
+
+<div class="detail-container">
+    <div class="detail-card">
+
+        {% if user.is_authenticated %}
+        <div class="favorite-wrapper">
+            <button class="favorite-btn {% if is_favorited %}active{% endif %}" data-id="{{ livestock.id }}" id="favBtn">
+                <i class="fas fa-heart"></i>
+                <span id="favText">
+                    {% if is_favorited %}Remove from Favorites{% else %}Add to Favorites{% endif %}
+                </span>
+            </button>
+        </div>
+        {% endif %}
+
+        <div class="detail-main">
+            <div class="detail-image-area">
+                {% if livestock.image %}
+                    <img src="{{ livestock.image.url }}" alt="{{ livestock.breed }}" class="main-image">
+                {% else %}
+                    <img src="{% static 'images/cow.png' %}" alt="No image" class="main-image">
+                {% endif %}
+
+                <div class="price-badge-large">
+                    <i class="fas fa-rupee-sign"></i> {{ livestock.price }}
+                </div>
+            </div>
+
+            <div class="detail-info-area">
+                <h2>About This Animal</h2>
+
+                <div class="info-cards">
+                    <div class="info-card">
+                        <i class="fas fa-paw"></i>
+                        <span class="info-label">Species</span>
+                        <span class="info-data">{{ livestock.species|title }}</span>
+                    </div>
+
+                    <div class="info-card">
+                        <i class="fas fa-calendar"></i>
+                        <span class="info-label">Age</span>
+                        <span class="info-data">{{ livestock.get_formatted_age }}</span>
+                    </div>
+
+                    <div class="info-card">
+                        <i class="fas fa-weight"></i>
+                        <span class="info-label">Weight</span>
+                        <span class="info-data">{{ livestock.weight }} kg</span>
+                    </div>
+
+                    <div class="info-card">
+                        <i class="fas fa-heartbeat"></i>
+                        <span class="info-label">Health</span>
+                        <span class="info-data health-{{ livestock.health|lower }}">{{ livestock.health }}</span>
+                    </div>
+
+                    <div class="info-card">
+                        <i class="fas fa-map-marker"></i>
+                        <span class="info-label">Location</span>
+                        <span class="info-data">{{ livestock.location }}</span>
+                    </div>
+
+                    <div class="info-card">
+                        <i class="fas fa-check-circle"></i>
+                        <span class="info-label">Status</span>
+                        <span class="info-data status-{{ livestock.availability_status|lower }}">
+                            {{ livestock.availability_status|title }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="description-box">
+            <h3><i class="fas fa-align-left"></i> Description</h3>
+            <p>{{ livestock.description|default:"No description provided." }}</p>
+        </div>
+
+        {% if livestock.gallery_photos.exists %}
+        <div class="gallery-box">
+            <h3><i class="fas fa-images"></i> Photo Gallery</h3>
+            <div class="gallery-flex" id="galleryFlex">
+                {% for img in livestock.gallery_photos.all %}
+                <div class="gallery-thumb" data-img-url="{{ img.image.url }}">
+                    <img src="{{ img.image.url }}" alt="Gallery">
+                    <div class="thumb-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="contact-box">
+            <h3><i class="fas fa-headset"></i> Contact Information</h3>
+
+            <div class="contact-flex">
+                <div class="contact-block">
+                    <div class="contact-icon green-bg"><i class="fas fa-user"></i></div>
+                    <div class="contact-block-info">
+                        <span class="contact-block-label">OWNER</span>
+                        <span class="contact-block-value">{{ livestock.owner_name|default:livestock.user.username }}</span>
+                    </div>
+                </div>
+
+                <div class="contact-block">
+                    <div class="contact-icon blue-bg"><i class="fas fa-envelope"></i></div>
+                    <div class="contact-block-info">
+                        <span class="contact-block-label">EMAIL</span>
+                        <span class="contact-block-value">{{ livestock.user.email }}</span>
+                    </div>
+                </div>
+
+                <div class="contact-block">
+                    <div class="contact-icon orange-bg"><i class="fas fa-phone-alt"></i></div>
+                    <div class="contact-block-info">
+                        <span class="contact-block-label">PHONE</span>
+                        <span class="contact-block-value">{{ livestock.phone|default:"Not provided" }}</span>
+                    </div>
+                </div>
+
+                <div class="contact-block">
+                    <div class="contact-icon red-bg"><i class="fas fa-map-marker-alt"></i></div>
+                    <div class="contact-block-info">
+                        <span class="contact-block-label">ADDRESS</span>
+                        <span class="contact-block-value">{{ livestock.location }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if user.is_authenticated and livestock.user == user %}
+        <div class="action-box">
+            <h3><i class="fas fa-tools"></i> Manage Livestock</h3>
+
+            <div class="action-flex">
+                <a href="{% url 'updatestatus' livestock.id %}" class="action-btn update-action">
+                    <i class="fas fa-edit"></i>
+                    <div class="action-text">
+                        <span class="action-title">Update Status</span>
+                        <span class="action-desc">Change health or availability</span>
+                    </div>
+                </a>
+
+                <a href="{% url 'deletelivestock' livestock.id %}" class="action-btn delete-action"
+                   onclick="return confirm('Are you sure? This cannot be undone.')">
+                    <i class="fas fa-trash-alt"></i>
+                    <div class="action-text">
+                        <span class="action-title">Delete Livestock</span>
+                        <span class="action-desc">Permanently remove this listing</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+
+<div id="imageModal" class="image-modal">
+    <span class="modal-close">&times;</span>
+    <img class="modal-content" id="modalImg">
+    <button class="modal-prev" id="modalPrev"><i class="fas fa-chevron-left"></i></button>
+    <button class="modal-next" id="modalNext"><i class="fas fa-chevron-right"></i></button>
+</div>
+
+<div class="contact-bar">
+    <div class="contact-bar-content">
+        <div class="contact-text">
+            <h3>Contact Us Now</h3>
+            <p>Have any questions? Reach out to our support team for guidance.</p>
+        </div>
+        <a href="{% url 'contact' %}" class="contact-bar-btn">Contact Support</a>
+    </div>
+</div>
+
+<button id="scrollTopBtn" class="scroll-top-btn" onclick="scrollToTop()">
+    <i class="fas fa-arrow-up"></i>
+</button>
+
+<footer class="contact-footer">
+    <div class="footer-content">
+        <div class="footer-logo">
+            Pak<span>Livestock</span>
+        </div>
+        <p class="copyright">&copy; 2026 PakLivestock. All rights reserved.</p>
+    </div>
+</footer>
+    <script src="{% static 'scroll.js' %}"></script>
+    <script src="{% static 'details.js' %}"></script>
+</body>
+</html>

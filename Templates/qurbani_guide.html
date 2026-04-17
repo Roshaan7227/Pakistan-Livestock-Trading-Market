@@ -1,0 +1,215 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Tips for Selling Qurbani Animals - Pakistan Livestock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'blog.css' %}">
+</head>
+<body>
+
+<header class="navbar">
+    <div class="logo">
+        <img src="{% static 'images/logo.jpg' %}" alt="Pakistan Livestock Logo" class="logo-img">
+         Pak<span>Livestock</span>
+        </div>
+
+    <nav>
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'livestock' %}">Livestock</a>
+        <a href="{% url 'search_livestock' %}" class="search">Search Animal</a>
+        <a href="{% url 'blog' %}">Blog</a>
+
+        {% if user.is_authenticated %}
+            <a href="{% url 'favorite_list' %}">Favorites</a>
+            <a href="{% url 'contact' %}" class="contact-btn">Contact Us</a>
+            <a href="{% url 'add_livestock' %}">Add Livestock</a>
+            <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+        {% else %}
+            <a href="{% url 'login' %}" class="login-btn">Log In</a>
+        {% endif %}
+    </nav>
+</header>
+
+
+<section class="hero"
+    style="background: url('/static/images/Buffalo2.jpg'); background-size: cover; background-position: center;">
+    
+    <div class="hero-overlay">
+        <h1>Top Tips for Selling Qurbani Animals</h1>
+        <p> Festive Season Guide</p>
+    </div>
+</section>
+
+
+<section class="split-section">
+    <div class="image-left">
+        <img src="{% static 'images/buffalo3.jpg' %}" alt="Animal Preparation">
+    </div>
+
+    <div class="text-right">
+        <h2>1. Pre-Season Preparation</h2>
+        <p>Get your livestock ready well in advance of the festival:</p>
+
+        <ul>
+            <li>Complete all necessary vaccinations and health checks 2-3 months before</li>
+            <li>Implement intensive feeding programs to improve body condition</li>
+            <li>Ensure all animals have proper identification and health certificates</li>
+            <li>Clean and groom animals regularly for better presentation</li>
+            <li>Prepare detailed documentation of animal history and health records</li>
+        </ul>
+    </div>
+</section>
+
+
+<section class="split-section reverse">
+    <div class="text-left">
+        <h2>2. Quality Standards and Certification</h2>
+        <p>Meet religious and quality requirements for Qurbani animals:</p>
+
+        <ul>
+            <li>Ensure animals meet minimum age requirements (one year for goats/sheep, two years for cattle)</li>
+            <li>Verify animals are free from physical defects and illnesses</li>
+            <li>Obtain proper halal certification from recognized authorities</li>
+            <li>Maintain detailed health records and vaccination documentation</li>
+            <li>Provide certificates of origin and breeding information</li>
+        </ul>
+    </div>
+
+    <div class="image-right">
+        <img src="{% static 'images/cow6.jpg' %}" alt="Quality Certification">
+    </div>
+</section>
+<section class="split-section">
+    <div class="image-left">
+        <img src="{% static 'images/goat8.jpg' %}" alt="Strategic Pricing">
+    </div>
+
+    <div class="text-right">
+        <h2>3. Strategic Pricing Approach</h2>
+        <p>Set competitive prices while maximizing profitability:</p>
+
+        <ul>
+            <li>Research market prices in your region and neighboring areas</li>
+            <li>Price premium animals based on breed, age, and quality</li>
+            <li>Offer package deals for bulk purchases during festival season</li>
+            <li>Provide early booking discounts to secure advance sales</li>
+            <li>Adjust pricing based on supply and demand fluctuations</li>
+        </ul>
+    </div>
+</section>
+
+
+<div class="quote-container">
+    <blockquote>
+        "The Qurbani season is the most profitable time for livestock sellers. Proper preparation and online presence can double your sales."
+        <span class="quote-author">— Top Seller Report 2026</span>
+    </blockquote>
+</div>
+
+
+<section class="split-section reverse">
+    <div class="text-left">
+        <h2>4. Marketing and Promotion</h2>
+        <p>Effectively reach potential Qurbani buyers:</p>
+
+        <ul>
+            <li>Create compelling online listings with high-quality photos and videos</li>
+            <li>Utilize social media platforms popular during festival season</li>
+            <li>Partner with local mosques and Islamic centers for promotion</li>
+            <li>Offer virtual viewing options for distant customers</li>
+            <li>Provide detailed information about each animal's specifications</li>
+        </ul>
+    </div>
+
+    <div class="image-right">
+        <img src="{% static 'images/sheep7.jpg' %}" alt="Marketing">
+    </div>
+</section>
+
+
+<section class="split-section">
+    <div class="image-left">
+        <img src="{% static 'images/cow8.jpg' %}" alt="Customer Service">
+    </div>
+
+    <div class="text-right">
+        <h2>5. Customer Service Excellence</h2>
+        <p>Ensure smooth transactions and customer satisfaction:</p>
+
+        <ul>
+            <li>Provide 24/7 customer support during peak festival period</li>
+            <li>Offer flexible delivery and pickup arrangements</li>
+            <li>Provide clear guidance on proper animal care until sacrifice</li>
+            <li>Handle returns and complaints professionally and promptly</li>
+            <li>Collect feedback for continuous improvement in future seasons</li>
+        </ul>
+    </div>
+</section>
+
+
+<div class="related-articles-full">
+    <div class="related-header">
+        <h3>Related Articles</h3>
+    </div>
+
+    <div class="posts-grid-full">
+
+        <div class="post-card-full">
+            <img src="{% static 'images/cow3.jpg' %}" alt="Post">
+            <a href="{% url '10things' %}">10 Things to Check Before Buying a Cow</a>
+        </div>
+
+        <div class="post-card-full">
+            <img src="{% static 'images/sheep2.jpg' %}" alt="Post">
+            <a href="{% url 'health_guide' %}">Complete Health Guide for Dairy Cattle</a>
+        </div>
+
+        <div class="post-card-full">
+            <img src="{% static 'images/background3.jpg' %}" alt="Post">
+            <a href="{% url 'market_trends' %}">Livestock Market Trends 2026</a>
+        </div>
+
+        <div class="post-card-full">
+            <img src="{% static 'images/ox1.jpg' %}" alt="Post">
+            <a href="{% url 'digital_trading' %}">How Digital Platforms Are Changing Livestock Trading</a>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="contact-bar">
+    <div class="contact-bar-content">
+
+        <div class="contact-text">
+            <h3>Contact Us Now</h3>
+            <p>Have any questions? Reach out to our support team for guidance.</p>
+        </div>
+
+        <a href="{% url 'contact' %}" class="contact-bar-btn">
+            Contact Support
+        </a>
+    </div>
+</div>
+
+
+<button id="scrollTopBtn" class="scroll-top-btn" onclick="scrollToTop()">
+    <i class="fas fa-arrow-up"></i>
+</button>
+
+<footer class="contact-footer">
+    <div class="footer-content">
+        <div class="footer-logo">
+            Pak<span>Livestock</span>
+        </div>
+        <p class="copyright">&copy; 2026 PakLivestock. All rights reserved.</p>
+    </div>
+</footer>
+    <script src="{% static 'scroll.js' %}"></script>
+
+</body>
+</html>

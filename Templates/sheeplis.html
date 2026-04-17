@@ -1,0 +1,158 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sheep Listings - Pakistan Livestock</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'alllist.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+
+<header class="navbar">
+   <div class="logo">
+        <img src="{% static 'images/logo.jpg' %}" alt="Pakistan Livestock Logo" class="logo-img">
+        Pak<span>Livestock</span>
+        </div>
+
+    <nav>
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'livestock' %}">Livestock</a>
+        <a href="{% url 'search_livestock' %}" class="search">Search Animal</a>
+        <a href="{% url 'blog' %}">Blog</a>
+
+        {% if user.is_authenticated %}
+            <a href="{% url 'favorite_list' %}">Favorites</a>
+            <a href="{% url 'contact' %}" class="contact-btn">Contact Us</a>
+            <a href="{% url 'add_livestock' %}">Add Livestock</a>
+            <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+        {% else %}
+            <a href="{% url 'login' %}" class="login-btn">Login</a>
+        {% endif %}
+    </nav>
+</header>
+
+{% csrf_token %}
+
+<section class="hero" style="background: url('/static/images/background3.jpg') center/cover no-repeat;">
+    <div class="hero-overlay">
+        <h1>Available Sheep</h1>
+        <p>Browse our collection of quality wool and meat sheep</p>
+    </div>
+</section>
+
+<main class="ox-container">
+    <div class="ox-grid">
+
+        {% for sheep in livestock_data %}
+            <div class="ox-card">
+
+                <div class="ox-image">
+                    {% if sheep.image %}
+                        <img src="{{ sheep.image.url }}" alt="{{ sheep.breed }}">
+                    {% else %}
+                        <img src="{% static 'images/sheep.jpg' %}" alt="{{ sheep.breed }}">
+                    {% endif %}
+
+                    <div class="price-tag">
+                        <i class="fas fa-tag"></i> PKR {{ sheep.price }}
+                    </div>
+
+                    {% if user.is_authenticated %}
+                    <button class="favorite-btn" data-id="{{ sheep.id }}">
+                        <i class="fas fa-heart"></i>
+                    </button>
+                   {% endif %}
+                </div>
+
+                <div class="ox-info">
+
+                    <div class="ox-badge">
+                        <i class="fas fa-sheep"></i> Sheep
+                    </div>
+
+                    <h3>{{ sheep.breed }}</h3>
+
+                    <div class="ox-details">
+                        <span>
+                            <i class="fas fa-calendar-alt"></i> Age: {{ sheep.get_formatted_age }}
+                        </span>
+                        <span class="status {{ sheep.availability_status|lower }}">
+                            {{ sheep.availability_status|title }}
+                        </span>
+                    </div>
+
+                    <div class="ox-details">
+                        <span>
+                            <i class="fas fa-weight-hanging"></i> Weight: {{ sheep.weight }} kg
+                        </span>
+                        <span class="health {{ sheep.health|lower }}">
+                            <i class="fas fa-heartbeat"></i> {{ sheep.health }}
+                        </span>
+                    </div>
+
+                    <div class="ox-details">
+                        <span>
+                            <i class="fas fa-map-marker-alt"></i> {{ sheep.location }}
+                        </span>
+                    </div>
+
+                    <a href="{% url 'viewdetails' sheep.id %}" class="view-btn">
+                        View Details <i class="fas fa-arrow-right"></i>
+                    </a>
+
+                    {% if user.is_authenticated and sheep.user == user %}
+                        <div class="action-group">
+                            <a href="{% url 'updatestatus' sheep.id %}" class="update-btn">
+                                <i class="fas fa-edit"></i> Update
+                            </a>
+                            <a href="{% url 'deletelivestock' sheep.id %}" class="delete-btn" onclick="return confirm('Are you sure?')">
+                                <i class="fas fa-trash-alt"></i> Delete
+                            </a>
+                        </div>
+                    {% endif %}
+
+                </div>
+            </div>
+        {% empty %}
+            <div class="empty-state">
+                <i class="fas fa-sheep"></i>
+                <h3>No Sheep Available</h3>
+                <p>There are no sheep listings available at the moment. Please check back later.</p>
+            </div>
+        {% endfor %}
+
+    </div>
+</main>
+
+<div class="contact-bar">
+    <div class="contact-bar-inner">
+        <div class="contact-text">
+            <h3>Contact Us Now</h3>
+            <p>Have any questions? Reach out to our support team for guidance.</p>
+        </div>
+        <a href="{% url 'contact' %}" class="contact-btn-main">Contact Support</a>
+    </div>
+</div>
+
+<button id="scrollTopBtn" class="scroll-top-btn" onclick="scrollToTop()">
+    <i class="fas fa-arrow-up"></i>
+</button>
+
+<footer class="contact-footer">
+    <div class="footer-content">
+        <div class="footer-logo">
+            Pak<span>Livestock</span>
+        </div>
+        <p class="copyright">&copy; 2026 PakLivestock. All rights reserved.</p>
+    </div>
+</footer>
+    <script src="{% static 'scroll.js' %}"></script>
+    <script src="{% static 'favourite.js' %}"></script>
+
+</body>
+</html>

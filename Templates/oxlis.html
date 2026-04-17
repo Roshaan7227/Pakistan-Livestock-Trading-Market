@@ -1,0 +1,172 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ox Listings</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'alllist.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+   <header class="navbar">
+    <div class="logo">
+        <img src="{% static 'images/logo.jpg' %}" alt="Pakistan Livestock Logo" class="logo-img">
+         Pak<span>Livestock</span>
+        </div>
+
+    <nav>
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'livestock' %}">Livestock</a>
+        <a href="{% url 'search_livestock' %}" class="search">Search Animal</a>
+        <a href="{% url 'blog' %}">Blog</a>
+
+        {% if user.is_authenticated %}
+            <a href="{% url 'favorite_list' %}">Favorites</a>
+            <a href="{% url 'contact' %}" class="contact-btn">Contact Us</a>
+            <a href="{% url 'add_livestock' %}">Add Livestock</a>
+            <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+        {% else %}
+            <a href="{% url 'login' %}" class="login-btn">Login</a>
+        {% endif %}
+    </nav>
+</header>
+
+{% csrf_token %}
+<section class="hero"
+    style="background: url('/static/images/ox1.jpg'); background-size: cover; background-position: center;">
+    
+    <div class="hero-overlay">
+        <h1>Available Ox</h1>
+        <p>Browse our collection of quality working and beef ox</p>
+    </div>
+</section>
+
+
+<main class="ox-container">
+    <div class="ox-grid">
+
+        {% for ox in livestock_data %}
+        <div class="ox-card">
+
+            <div class="ox-image">
+                {% if ox.image %}
+                    <img src="{{ ox.image.url }}" alt="{{ ox.breed }}">
+                {% else %}
+                    <img src="{% static 'images/ox.jpg' %}" alt="{{ ox.breed }}">
+                {% endif %}
+
+                <div class="price-tag">
+                    <i class="fas fa-tag"></i> PKR {{ ox.price }}
+                </div>
+
+                {% if user.is_authenticated %}
+                    <button class="favorite-btn" data-id="{{ ox.id }}">
+                        <i class="fas fa-heart"></i>
+                    </button>
+                {% endif %}
+            </div>
+
+            <div class="ox-info">
+                <div class="ox-badge">
+                    <i class="fas fa-cow"></i> Ox
+                </div>
+
+                <h3>{{ ox.breed }}</h3>
+
+                <div class="ox-details">
+                    <span>
+                        <i class="fas fa-calendar-alt"></i> Age: {{ ox.get_formatted_age }}
+                    </span>
+
+                    <span class="status {{ ox.availability_status|lower }}">
+                        {{ ox.availability_status|title }}
+                    </span>
+                </div>
+
+                <div class="ox-details">
+                    <span>
+                        <i class="fas fa-weight-hanging"></i> Weight: {{ ox.weight }} kg
+                    </span>
+
+                    <span class="health {{ ox.health|lower }}">
+                        <i class="fas fa-heartbeat"></i> {{ ox.health }}
+                    </span>
+                </div>
+
+                <div class="ox-details">
+                    <span>
+                        <i class="fas fa-map-marker-alt"></i> {{ ox.location }}
+                    </span>
+                </div>
+
+                <a href="{% url 'viewdetails' ox.id %}" class="view-btn">
+                    View Details <i class="fas fa-arrow-right"></i>
+                </a>
+
+                {% if user.is_authenticated and ox.user == user %}
+                    <div class="action-group">
+                        <a href="{% url 'updatestatus' ox.id %}" class="update-btn">
+                            <i class="fas fa-edit"></i> Update
+                        </a>
+
+                        <a href="{% url 'deletelivestock' ox.id %}"
+                           class="delete-btn"
+                           onclick="return confirm('Are you sure?')">
+                            <i class="fas fa-trash-alt"></i> Delete
+                        </a>
+                    </div>
+                {% endif %}
+                
+            </div>
+
+        </div>
+        {% empty %}
+            <div class="empty-state">
+                <i class="fas fa-cow"></i>
+                <h3>No Ox Available</h3>
+                <p>
+                    There are no ox listings available at the moment.
+                    Please check back later.
+                </p>
+            </div>
+        {% endfor %}
+
+    </div>
+</main>
+
+
+<div class="contact-bar">
+    <div class="contact-bar-inner">
+
+        <div class="contact-text">
+            <h3>Contact Us Now</h3>
+            <p>Have any questions? Reach out to our support team for guidance.</p>
+        </div>
+
+        <a href="{% url 'contact' %}" class="contact-btn-main">
+            Contact Support
+        </a>
+    </div>
+</div>
+
+
+<button id="scrollTopBtn" class="scroll-top-btn" onclick="scrollToTop()">
+    <i class="fas fa-arrow-up"></i>
+</button>
+
+<footer class="contact-footer">
+    <div class="footer-content">
+        <div class="footer-logo">
+            Pak<span>Livestock</span>
+        </div>
+        <p class="copyright">&copy; 2026 PakLivestock. All rights reserved.</p>
+    </div>
+</footer>
+    <script src="{% static 'scroll.js' %}"></script>
+    <script src="{% static 'favourite.js' %}"></script>
+
+</body>
+</html>

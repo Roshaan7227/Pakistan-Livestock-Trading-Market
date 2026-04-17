@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Livestock - {{ livestock.breed }} {{ livestock.species }}</title>
+    <link rel="stylesheet" href="{% static 'alllisp.css' %}">
+    <link rel="stylesheet" href="{% static 'deletestatus.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    
+
+    <main class="delete-container">
+        <div class="confirmation-card">
+            <div class="warning-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            
+            <h1>Delete Livestock</h1>
+            
+            <div class="livestock-info">
+                <div class="info-item">
+                    <span class="label">Breed:</span>
+                    <span class="value">{{ livestock.breed }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Species:</span>
+                    <span class="value">{{ livestock.species }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Location:</span>
+                    <span class="value">{{ livestock.location }}</span>
+                </div>
+                {% if livestock.price %}
+                <div class="info-item">
+                    <span class="label">Price:</span>
+                    <span class="value">{{ livestock.price }} Rs</span>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="warning-message">
+                <p><i class="fas fa-exclamation-circle"></i> This action cannot be undone. All associated data including photos will be permanently deleted.</p>
+            </div>
+
+            {% if user.is_authenticated and livestock.user == user %}
+            <div class="action-buttons">
+                <form method="post" class="delete-form">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-confirm-delete">
+                        <i class="fas fa-trash"></i> Yes, Delete Livestock
+                    </button>
+                </form>
+                <a href="{% url 'viewdetails' livestock.id %}" class="btn-cancel">
+                    <i class="fas fa-times"></i> Cancel
+                </a>
+            </div>
+            {% else %}
+            <div class="permission-error">
+                <div class="error-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h2>Permission Denied</h2>
+                <p>You do not have permission to delete this livestock.</p>
+                <a href="{% url 'livestock' %}" class="btn-back">Back to Livestock</a>
+            </div>
+            {% endif %}
+        </div>
+    </main>
+    
+</body>
+</html>
