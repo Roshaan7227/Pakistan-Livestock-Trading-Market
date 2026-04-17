@@ -1,0 +1,160 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Buffaloes - Pakistan Livestock</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+   
+    <link rel="stylesheet" href="{% static 'alllist.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        .hero {
+            background: url('{% static "images/background2.jpg" %}');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo">
+        <img src="{% static 'images/logo.jpg' %}" alt="Pakistan  Livestock Logo" class="logo-img">
+         Pak<span>Livestock</span>
+        </div>
+        <nav>
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'livestock' %}">Livestock</a>
+            <a href="{% url 'search_livestock' %}" class="search">Search Animal</a>
+            <a href="{% url 'blog' %}">Blog</a>
+
+            {% if user.is_authenticated %}
+                <a href="{% url 'favorite_list' %}">Favorites</a>
+                <a href="{% url 'contact' %}" class="contact-btn">Contact Us</a>
+                <a href="{% url 'add_livestock' %}">Add Livestock</a>
+                <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="login-btn">Login</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    {% csrf_token %}
+    <section class="hero">
+        <div class="hero-overlay">
+            <h1>Available Buffaloes</h1>
+            <p>Discover healthy dairy and beef buffaloes ready to join your farm.</p>
+        </div>
+    </section>
+
+    <main class="ox-container">
+        <div class="ox-grid">
+
+            {% for buffalo in livestock_data %}
+            <div class="ox-card">
+
+                <div class="ox-image">
+                    {% if buffalo.image %}
+                        <img src="{{ buffalo.image.url }}" alt="{{ buffalo.breed }}">
+                    {% else %}
+                        <img src="{% static 'images/Buffalo.jpg' %}" alt="{{ buffalo.breed }}">
+                    {% endif %}
+
+                    <div class="price-tag">
+                        <i class="fas fa-tag"></i> PKR {{ buffalo.price }}
+                    </div>
+
+                    {% if user.is_authenticated %}
+                        <button class="favorite-btn" data-id="{{ buffalo.id }}">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                    {% endif %}
+                </div>
+
+                <div class="ox-info">
+                    <div class="ox-badge">
+                        <i class="fas fa-cow"></i> Buffalo
+                    </div>
+
+                    <h3>{{ buffalo.breed }}</h3>
+
+                    <div class="ox-details">
+                        <span><i class="fas fa-calendar-alt"></i> Age: {{ buffalo.get_formatted_age }}</span>
+                        <span class="status {{ buffalo.availability_status|lower }}">
+                            {{ buffalo.availability_status|title }}
+                        </span>
+                    </div>
+
+                    <div class="ox-details">
+                        <span><i class="fas fa-weight-hanging"></i> Weight: {{ buffalo.weight }} kg</span>
+                        <span class="health {{ buffalo.health|lower }}">
+                            <i class="fas fa-heartbeat"></i> {{ buffalo.health }}
+                        </span>
+                    </div>
+
+                    <div class="ox-details">
+                        <span><i class="fas fa-map-marker-alt"></i> {{ buffalo.location }}</span>
+                    </div>
+
+                    <a href="{% url 'viewdetails' buffalo.id %}" class="view-btn">
+                        View Details <i class="fas fa-arrow-right"></i>
+                    </a>
+
+                    {% if user.is_authenticated and buffalo.user == user %}
+                        <div class="action-group">
+                            <a href="{% url 'updatestatus' buffalo.id %}" class="update-btn">
+                                <i class="fas fa-edit"></i> Update Info
+                            </a>
+                            <a href="{% url 'deletelivestock' buffalo.id %}" class="delete-btn"
+                               onclick="return confirm('Are you sure you want to remove this buffalo from listings? This cannot be undone.')">
+                                <i class="fas fa-trash-alt"></i> Remove
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+
+            </div>
+            {% empty %}
+                <div class="empty-state">
+                    <i class="fas fa-cow"></i>
+                    <h3>No Buffaloes Available</h3>
+                    <p>It seems we don’t have any buffalo listings right now. Please check back soon for updates.</p>
+                </div>
+            {% endfor %}
+
+        </div>
+    </main>
+
+    <div class="contact-bar">
+        <div class="contact-bar-inner">
+            <div class="contact-text">
+                <h3>Have Questions?</h3>
+                <p>Our support team is ready to help you choose the perfect buffalo for your farm.</p>
+            </div>
+            <a href="{% url 'contact' %}" class="contact-btn-main">
+                Contact Support
+            </a>
+        </div>
+    </div>
+
+<button id="scrollTopBtn" class="scroll-top-btn" onclick="scrollToTop()">
+    <i class="fas fa-arrow-up"></i>
+</button>
+
+<footer class="contact-footer">
+    <div class="footer-content">
+        <div class="footer-logo">
+            Pak<span>Livestock</span>
+        </div>
+        <p class="copyright">&copy; 2026 PakLivestock. All rights reserved.</p>
+    </div>
+</footer>
+    <script src="{% static 'scroll.js' %}"></script>
+    <script src="{% static 'favourite.js' %}"></script>
+
+</body>
+</html>

@@ -1,0 +1,211 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Contact Us - Pakistan Livestock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'contact1.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .hero {
+            background: url('{% static "images/background4.jpg" %}');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body>
+
+<header class="navbar">
+    <div class="logo">
+        <img src="{% static 'images/logo.jpg' %}" alt="Pakistan Livestock Logo" class="logo-img">
+         Pak<span>Livestock</span>
+        </div>
+    <nav>
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'livestock' %}">Livestock</a>
+        <a href="{% url 'search_livestock' %}" class="search">Search Animal</a>
+        <a href="{% url 'blog' %}">Blog</a>
+
+        {% if user.is_authenticated %}
+            <a href="{% url 'favorite_list' %}">Favorites</a>
+            <a href="{% url 'contact' %}" class="contact-btn">Contact Us</a>
+            <a href="{% url 'add_livestock' %}">Add Livestock</a>
+            <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+        {% else %}
+            <a href="{% url 'login' %}" class="login-btn">Log In</a>
+        {% endif %}
+    </nav>
+</header>
+
+<section class="hero">
+    <div class="hero-overlay">
+        <h1>Contact Us</h1>
+        <p>We’d love to hear from you. Send us a message and we’ll respond soon.</p>
+    </div>
+</section>
+
+<div class="stats-container">
+    <div class="stat-card">
+        <h3>24/7</h3>
+        <p>Customer Support</p>
+    </div>
+    <div class="stat-card">
+        <h3>1 Day</h3>
+        <p>Average Response</p>
+    </div>
+    <div class="stat-card">
+        <h3>100%</h3>
+        <p>Satisfaction Rate</p>
+    </div>
+</div>
+
+<section class="split-section">
+    <div class="image-left">
+        <img src="{% static 'images/goat6.jpg' %}" alt="Contact Pakistan Livestock">
+    </div>
+    <div class="text-right">
+        <h2>Get in Touch</h2>
+        <p>
+            Have questions about livestock, need assistance, or want to share feedback?
+            Our team is here to help. Fill out the form and we’ll get back to you as soon as possible.
+        </p>
+
+        <div class="contact-info-list">
+            <div class="contact-info-item">
+                <i class="fas fa-phone-alt"></i>
+                <div>
+                    <h4>Phone</h4>
+                    <p>+92 3498829249</p>
+                </div>
+            </div>
+
+            <div class="contact-info-item">
+                <i class="fas fa-envelope"></i>
+                <div>
+                    <h4>Email</h4>
+                    <p>pakistanlivestocktradingsystem@gmail.com</p>
+                </div>
+            </div>
+
+            <div class="contact-info-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <div>
+                    <h4>Address</h4>
+                    <p>Kharian, Gujrat, Punjab, Pakistan</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="quote-container">
+    <blockquote>
+        "Your satisfaction is our priority. Reach out anytime — we’re here to help."
+        <span class="quote-author">— Pakistan Livestock Team</span>
+    </blockquote>
+</div>
+
+<div class="form-container">
+    <div class="form-card">
+        <div class="form-header">
+            <h2>Send Us a Message</h2>
+            <p>Fill in the details below and we’ll get back to you shortly.</p>
+        </div>
+
+        <form method="POST" class="contact-form">
+            {% csrf_token %}
+
+            {% if success %}
+            <div class="success-message">
+                <i class="fas fa-check-circle"></i> Your message has been sent successfully!
+            </div>
+            {% endif %}
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="name">Your Name <span class="required">*</span></label>
+                    <input type="text"
+                           id="name"
+                           name="name"
+                           value="{% if user.is_authenticated %}{{ user.username }}{% endif %}"
+                           placeholder="Enter your full name"
+                           {% if user.is_authenticated %}readonly{% endif %}
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Your Email <span class="required">*</span></label>
+                    <input type="email"
+                           id="email"
+                           name="email"
+                           value="{% if user.is_authenticated %}{{ user.email }}{% endif %}"
+                           placeholder="Enter your email address"
+                           {% if user.is_authenticated %}readonly{% endif %}
+                           required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="phone">Phone Number <span class="required">*</span></label>
+                    <input type="tel"
+                           id="phone"
+                           name="phone"
+                           pattern="^(?:03\d{9}|\+923\d{9})$"
+                           placeholder="e.g., 03001234567 or +923001234567"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <input type="text"
+                           id="subject"
+                           name="subject"
+                           placeholder="What is this regarding?">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="message">Message <span class="required">*</span></label>
+                <textarea id="message"
+                          name="message"
+                          rows="5"
+                          placeholder="Write your message here..."
+                          required></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn">
+                <i class="fas fa-paper-plane"></i> Send Message
+            </button>
+        </form>
+    </div>
+</div>
+
+<div class="contact-bar">
+    <div class="contact-bar-content">
+        <div class="contact-text">
+            <h3>Need Expert Advice?</h3>
+            <p>Have questions about buying livestock? Our team is here to help!</p>
+        </div>
+        <a href="{% url 'contact' %}" class="contact-bar-btn">Contact Support</a>
+    </div>
+</div>
+
+<button id="scrollTopBtn" class="scroll-top-btn" onclick="scrollToTop()">
+    <i class="fas fa-arrow-up"></i>
+</button>
+
+<footer class="contact-footer">
+    <div class="footer-content">
+        <div class="footer-logo">
+            Pak<span>Livestock</span>
+        </div>
+        <p class="copyright">&copy; 2026 PakLivestock. All rights reserved.</p>
+    </div>
+</footer>
+    <script src="{% static 'scroll.js' %}"></script>
+</body>
+</html>

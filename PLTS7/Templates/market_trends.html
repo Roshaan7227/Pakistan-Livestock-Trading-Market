@@ -1,0 +1,212 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Livestock Market Trends 2026 - Pakistan Livestock</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'blog.css' %}">
+</head>
+<body>
+   
+   <header class="navbar">
+    <div class="logo">
+        <img src="{% static 'images/logo.jpg' %}" alt="Pakistan Livestock Logo" class="logo-img">
+         Pak<span>Livestock</span>
+        </div>
+
+    <nav>
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'livestock' %}">Livestock</a>
+        <a href="{% url 'search_livestock' %}" class="search">Search Animal</a>
+        <a href="{% url 'blog' %}">Blog</a>
+
+        {% if user.is_authenticated %}
+            <a href="{% url 'favorite_list' %}">Favorites</a>
+            <a href="{% url 'contact' %}" class="contact-btn">Contact Us</a>
+            <a href="{% url 'add_livestock' %}">Add Livestock</a>
+            <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+        {% else %}
+            <a href="{% url 'login' %}" class="login-btn">Log In</a>
+        {% endif %}
+    </nav>
+</header>
+
+
+<section class="hero"
+    style="background: url('/static/images/Background3.jpg'); background-size: cover; background-position: center;">
+    <div class="hero-overlay">
+        <h1>Livestock Market Trends 2026</h1>
+        <p> Market Analysis</p>
+    </div>
+</section>
+
+<section class="split-section">
+    <div class="image-left">
+        <img src="{% static 'images/sheep9.jpg' %}" alt="Price Trends">
+    </div>
+
+    <div class="text-right">
+        <h2>1. Price Trends Analysis</h2>
+        <p>Current pricing patterns across different livestock categories:</p>
+
+        <ul>
+            <li>Cattle prices showing steady upward trend due to increased demand</li>
+            <li>Buffalo market experiencing seasonal fluctuations</li>
+            <li>Goat prices rising during festive seasons</li>
+            <li>Sheep market stabilizing after recent volatility</li>
+            <li>Poultry maintaining consistent price levels</li>
+        </ul>
+    </div>
+</section>
+
+
+<section class="split-section reverse">
+    <div class="text-left">
+        <h2>2. Regional Market Variations</h2>
+        <p>Geographic differences in livestock trading:</p>
+
+        <ul>
+            <li>Urban markets showing higher premium prices</li>
+            <li>Rural areas experiencing supply-driven pricing</li>
+            <li>Border regions with unique cross-trade opportunities</li>
+            <li>Seasonal migration affecting local market dynamics</li>
+            <li>Infrastructure development boosting remote market access</li>
+        </ul>
+    </div>
+
+    <div class="image-right">
+        <img src="{% static 'images/cow4.jpg' %}" alt="Regional Markets">
+    </div>
+</section>
+
+
+<section class="split-section">
+    <div class="image-left">
+        <img src="{% static 'images/rabbit4.jpg' %}" alt="Consumer Demand">
+    </div>
+
+    <div class="text-right">
+        <h2>3. Consumer Demand Patterns</h2>
+        <p>Changing buyer preferences and consumption trends:</p>
+
+        <ul>
+            <li>Increased demand for organic and grass-fed livestock</li>
+            <li>Quality-conscious buyers willing to pay premium prices</li>
+            <li>Health and safety certifications gaining importance</li>
+            <li>Digital verification and traceability becoming essential</li>
+            <li>Sustainable farming practices influencing purchase decisions</li>
+        </ul>
+    </div>
+</section>
+
+
+<div class="quote-container">
+    <blockquote>
+        "The livestock market is evolving rapidly. Farmers who adapt to digital platforms are seeing 40% higher profits compared to traditional selling methods."
+        <span class="quote-author">— Market Analyst Report 2026</span>
+    </blockquote>
+</div>
+
+
+<section class="split-section reverse">
+    <div class="text-left">
+        <h2>4. Technology Impact</h2>
+        <p>How digital platforms are reshaping market operations:</p>
+
+        <ul>
+            <li>Online marketplaces expanding reach and customer base</li>
+            <li>Real-time price comparison tools for better decision making</li>
+            <li>Digital payment systems improving transaction efficiency</li>
+            <li>Virtual viewing and remote inspection capabilities</li>
+            <li>Data analytics for market prediction and planning</li>
+        </ul>
+    </div>
+
+    <div class="image-right">
+        <img src="{% static 'images/sheep8.jpg' %}" alt="Technology Impact">
+    </div>
+</section>
+
+
+<section class="split-section">
+    <div class="image-left">
+        <img src="{% static 'images/parrot2.jpg' %}" alt="Future Outlook">
+    </div>
+
+    <div class="text-right">
+        <h2>5. Future Outlook</h2>
+        <p>Anticipated market developments and opportunities:</p>
+
+        <ul>
+            <li>Continued growth in e-commerce livestock trading</li>
+            <li>Increased focus on animal welfare standards</li>
+            <li>Climate change adaptation strategies becoming crucial</li>
+            <li>Export market expansion opportunities</li>
+            <li>Integration of blockchain for supply chain transparency</li>
+        </ul>
+    </div>
+</section>
+
+
+<div class="related-articles-full">
+    <div class="related-header">
+        <h3>Related Articles</h3>
+    </div>
+
+    <div class="posts-grid-full">
+
+        <div class="post-card-full">
+            <img src="{% static 'images/cow3.jpg' %}" alt="Post">
+            <a href="{% url '10things' %}">10 Things to Check Before Buying a Cow</a>
+        </div>
+
+        <div class="post-card-full">
+            <img src="{% static 'images/sheep2.jpg' %}" alt="Post">
+            <a href="{% url 'health_guide' %}">Complete Health Guide for Dairy Cattle</a>
+        </div>
+
+        <div class="post-card-full">
+            <img src="{% static 'images/buffalo2.jpg' %}" alt="Post">
+            <a href="{% url 'qurbani_guide' %}">Top Tips for Selling Qurbani Animals</a>
+        </div>
+
+        <div class="post-card-full">
+            <img src="{% static 'images/ox1.jpg' %}" alt="Post">
+            <a href="{% url 'digital_trading' %}">How Digital Platforms Are Changing Livestock Trading</a>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="contact-bar">
+    <div class="contact-bar-content">
+
+        <div class="contact-text">
+            <h3>Contact Us Now</h3>
+            <p>Have any questions? Reach out to our support team for guidance.</p>
+        </div>
+
+        <a href="{% url 'contact' %}" class="contact-bar-btn">Contact Support</a>
+    </div>
+</div>
+
+<button id="scrollTopBtn" class="scroll-top-btn" onclick="scrollToTop()">
+    <i class="fas fa-arrow-up"></i>
+</button>
+
+<footer class="contact-footer">
+    <div class="footer-content">
+        <div class="footer-logo">
+            Pak<span>Livestock</span>
+        </div>
+        <p class="copyright">&copy; 2026 PakLivestock. All rights reserved.</p>
+    </div>
+</footer>
+    <script src="{% static 'scroll.js' %}"></script>
+
+</body>
+</html>

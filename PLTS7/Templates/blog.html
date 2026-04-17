@@ -1,0 +1,141 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Pakistan Livestock</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'blog.css' %}">
+    <style>
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.75)), url('{% static "images/background1.jpg" %}');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body>
+    
+    <header class="navbar">
+        <div class="logo">
+        <img src="{% static 'images/logo.jpg' %}" alt="Pakistan  Livestock Logo" class="logo-img">
+         Pak<span>Livestock</span>
+        </div>
+      <nav>
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'livestock' %}">Livestock</a>
+            <a href="{% url 'search_livestock' %}" class="search">Search Animal</a>
+            <a href="{% url 'blog' %}">Blog</a>
+
+            {% if user.is_authenticated %}
+                <a href="{% url 'favorite_list' %}">Favorites</a>
+                <a href="{% url 'contact' %}" class="contact-btn">Contact Us</a>
+                <a href="{% url 'add_livestock' %}">Add Livestock</a>
+                <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="login-btn">Login</a>
+            {% endif %}
+        </nav>
+    </header>
+
+   
+    <section class="hero">
+        <div class="hero-overlay">
+            <h1>Blogs</h1>
+            <p>Expert advice, success stories, and market trends for smart farming</p>
+        </div>
+    </section>
+
+     <section class="split-section reverse">
+        <div class="text-left">
+            <h2>Featured: 10 Things to Check Before Buying a Cow</h2>
+            <p>Buying a cow is a significant investment. Learn how to identify healthy cattle and what to look for before making a purchase. This comprehensive guide covers everything from physical health to market price.</p>
+            <a href="{% url '10things' %}" class="read-more-btn">Read Full Article →</a>
+        </div>
+        <div class="image-right">
+            <img src="{% static 'images/cow3.jpg' %}" alt="Featured Article">
+        </div>
+    </section>
+
+   
+    <div class="quote-container">
+        <blockquote>
+            "Knowledge is the key to successful livestock farming. Stay informed, stay profitable."
+            <span class="quote-author">— Pakistan  Livestock Team</span>
+        </blockquote>
+    </div>
+
+    <section class="split-section">
+        <div class="image-left">
+            <img src="{% static 'images/sheep2.jpg' %}" alt="Health Guide">
+        </div>
+        <div class="text-right">
+            <h2>Complete Health Guide for Dairy Cattle</h2>
+            <p>Discover essential tips for maintaining the health and productivity of dairy animals. From vaccination schedules to nutrition plans, this guide has everything you need.</p>
+            <a href="{% url 'health_guide' %}" class="read-more-btn">Read Health Guide →</a>
+        </div>
+    </section>
+
+    
+    <section class="split-section reverse">
+        <div class="text-left">
+            <h2>Livestock Market Trends 2026</h2>
+            <p>Stay updated with the latest livestock price trends and market insights. Understand the factors affecting prices and make informed buying decisions.</p>
+            <a href="{% url 'market_trends' %}" class="read-more-btn">Read Market Trends →</a>
+        </div>
+        <div class="image-right">
+            <img src="{% static 'images/background3.jpg' %}" alt="Market Trends">
+        </div>
+    </section>
+
+ 
+    <section class="split-section">
+        <div class="image-left">
+            <img src="{% static 'images/ox1.jpg' %}" alt="Digital Trading">
+        </div>
+        <div class="text-right">
+            <h2>How Digital Platforms Are Changing Livestock Trading</h2>
+            <p>Understand how online marketplaces are transforming livestock businesses. Learn about the benefits of digital trading and how to get started.</p>
+            <a href="{% url 'digital_trading' %}" class="read-more-btn">Read Article →</a>
+        </div>
+    </section>
+
+   
+    <section class="split-section reverse">
+        <div class="text-left">
+            <h2>Top Tips for Selling Qurbani Animals</h2>
+            <p>Expert advice on preparing and pricing animals for the festive season. Maximize your profits and ensure customer satisfaction with these proven tips.</p>
+            <a href="{% url 'qurbani_guide' %}" class="read-more-btn">Read Qurbani Guide →</a>
+        </div>
+        <div class="image-right">
+            <img src="{% static 'images/buffalo2.jpg' %}" alt="Qurbani Tips">
+        </div>
+    </section>
+    <div class="contact-bar">
+        <div class="contact-bar-content">
+            <div class="contact-text">
+                <h3>Want to Contribute?</h3>
+                <p>Share your farming experiences and insights with our community</p>
+            </div>
+            <a href="{% url 'contact' %}" class="contact-bar-btn">Contact Us</a>
+        </div>
+    </div>
+
+<button id="scrollTopBtn" class="scroll-top-btn" onclick="scrollToTop()">
+    <i class="fas fa-arrow-up"></i>
+</button>
+
+<footer class="contact-footer">
+    <div class="footer-content">
+        <div class="footer-logo">
+            Pak<span>Livestock</span>
+        </div>
+        <p class="copyright">&copy; 2026 PakLivestock. All rights reserved.</p>
+    </div>
+</footer>
+    <script src="{% static 'scroll.js' %}"></script>
+
+</body>
+</html>

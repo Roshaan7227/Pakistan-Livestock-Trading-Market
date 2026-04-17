@@ -1,0 +1,157 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Join Pakistan LIVESTOCK</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'signup.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+
+<header class="navbar">
+    <div class="logo">
+        <img src="{% static 'images/logo.jpg' %}" alt="Pakistan Livestock Logo" class="logo-img">
+         Pak<span>Livestock</span>
+        </div>
+
+    <nav>
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'livestock' %}">Livestock</a>
+        <a href="{% url 'search_livestock' %}" class="search">Search Animal</a>
+        <a href="{% url 'blog' %}">Blog</a>
+
+        {% if user.is_authenticated %}
+            <a href="{% url 'favorite_list' %}">Favorites</a>
+            <a href="{% url 'contact' %}" class="contact-btn">Contact Us</a>
+            <a href="{% url 'add_livestock' %}">Add Livestock</a>
+            <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+        {% else %}
+            <a href="{% url 'login' %}" class="login-btn">Login</a>
+        {% endif %}
+    </nav>
+</header>
+
+<div class="signup-main-wrapper">
+    <div class="signup-wrapper">
+
+        <div class="signup-left">
+            <div class="left-content">
+
+                <div class="quote-icon">
+                    <i class="fas fa-quote-left"></i>
+                </div>
+
+                <h1>Join the <span>Livestock Trading</span> Revolution</h1>
+
+                <p>
+                    You can connect with thousands of buyers and sellers across the country.
+                    Sell your livestock faster, get better prices, and grow your farm business.
+                </p>
+
+                <div class="benefits">
+                    <div class="benefit-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Reach buyers nationwide</span>
+                    </div>
+
+                    <div class="benefit-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Get fair market prices</span>
+                    </div>
+
+                    <div class="benefit-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Easy listing management</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="signup-right">
+            <div class="form-container">
+
+                <div class="form-header">
+                    <div class="icon-circle">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <h2>Create Account</h2>
+                    <p>Start your journey with us today</p>
+                </div>
+
+                {% if messages %}
+                    <div class="messages">
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }}">
+                                <i class="fas fa-{% if message.tags == 'error' %}exclamation-circle{% else %}check-circle{% endif %}"></i>
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <form method="post" action="{% url 'signup' %}" class="signup-form">
+                    {% csrf_token %}
+
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" name="username" id="username" placeholder="Username" required>
+                    </div>
+
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" name="email" id="email" placeholder="Email Address" required>
+                    </div>
+
+                    <div class="input-group">
+                        <i class="fas fa-phone-alt"></i>
+                        <input type="tel" name="phone_number" id="phone_number" placeholder="Phone Number">
+                    </div>
+
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" name="password" id="password" placeholder="Password" required>
+                    </div>
+
+                    <div class="input-group">
+                        <i class="fas fa-check-circle"></i>
+                        <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" required>
+                    </div>
+
+                    <button type="submit" class="signup-btn">
+                        Create Account <i class="fas fa-arrow-right"></i>
+                    </button>
+
+                    <div class="login-redirect">
+                        <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<button id="scrollTopBtn" class="scroll-top-btn" onclick="scrollToTop()">
+    <i class="fas fa-arrow-up"></i>
+</button>
+
+<footer class="contact-footer">
+    <div class="footer-content">
+        <div class="footer-logo">
+            Pak<span>Livestock</span>
+        </div>
+        <p class="copyright">&copy; 2026 PakLivestock. All rights reserved.</p>
+    </div>
+</footer>
+    <script src="{% static 'scroll.js' %}"></script>
+
+
+</body>
+</html>

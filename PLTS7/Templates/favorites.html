@@ -1,0 +1,148 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Favorites - Pakistan Livestock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'favorites.css' %}?v=2">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo">
+        <img src="{% static 'images/logo.jpg' %}" alt="Pakistan Livestock Logo" class="logo-img">
+         Pak<span>Livestock</span>
+        </div>
+        <nav>
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'livestock' %}">Livestock</a>
+            <a href="{% url 'search_livestock' %}" class="search">Search Animal</a>
+            <a href="{% url 'blog' %}">Blog</a>
+            <a href="{% url 'contact' %}" class="contact-btn">Contact Us</a>
+
+            {% if user.is_authenticated %}
+                <a href="{% url 'favorite_list' %}">Favorites</a>
+                <a href="{% url 'add_livestock' %}">Add Livestock</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main class="favorites-container">
+        <div class="page-header">
+            <h1>My Favorite Livestock</h1>
+            <p class="results-count">
+                {{ favorites|length }} livestock in your favorites
+            </p>
+        </div>
+
+        {% csrf_token %}
+
+        <div class="results-grid">
+            {% for fav in favorites %}
+            <div class="result-card">
+                <div class="card-image">
+                    {% if fav.livestock.image %}
+                        <img src="{{ fav.livestock.image.url }}" 
+                             alt="{{ fav.livestock.breed }}"
+                             onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'no-image\'><i class=\'fas fa-image\'></i><span>Image Not Available</span></div>';">
+                    {% else %}
+                        <div class="no-image">
+                            <i class="fas fa-image"></i>
+                            <span>No Image</span>
+                        </div>
+                    {% endif %}
+
+                    <div class="price-badge">
+                        <i class="fas fa-tag"></i> ₨{{ fav.livestock.price }}
+                    </div>
+
+                    <div class="status-badge {{ fav.livestock.availability_status }}">
+                        {{ fav.livestock.get_availability_status_display }}
+                    </div>
+
+                    <button class="favorite-btn active" data-id="{{ fav.livestock.id }}">
+                        <i class="fas fa-heart"></i>
+                    </button>
+                </div>
+
+                <div class="card-info">
+                    <h3>{{ fav.livestock.breed }}</h3>
+                    <span class="species-tag">
+                        {{ fav.livestock.get_species_display }}
+                    </span>
+
+                    <div class="info-details">
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>{{ fav.livestock.location }}</span>
+                        </div>
+
+                        <div class="info-item">
+                            <i class="fas fa-weight-hanging"></i>
+                            <span>{{ fav.livestock.weight|default:"N/A" }} kg</span>
+                        </div>
+
+                        <div class="info-item">
+                            <i class="fas fa-heartbeat"></i>
+                            <span class="health-{{ fav.livestock.health|lower }}">
+                                {{ fav.livestock.get_health_display|default:"N/A" }}
+                            </span>
+                        </div>
+
+                        <div class="info-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>{{ fav.livestock.get_formatted_age }}</span>
+                        </div>
+                    </div>
+
+                    <a href="{% url 'viewdetails' fav.livestock.id %}" class="view-btn">
+                        View Details <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+            {% empty %}
+            <div class="empty-state">
+                <i class="fas fa-heart"></i>
+                <h2>No Favorites Yet</h2>
+                <p>You haven't added any livestock to your favorites.</p>
+                <p class="try-suggestion">
+                    Browse our livestock listings to find your perfect match
+                </p>
+                <a href="{% url 'livestock' %}" class="back-home">
+                    <i class="fas fa-paw"></i> Browse Livestock
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </main>
+
+    <div class="contact-bar">
+    <div class="contact-bar-content">
+        <div class="contact-text">
+            <h3>Need Expert Advice?</h3>
+            <p>Have questions about buying livestock? Our team is here to help!</p>
+        </div>
+        <a href="{% url 'contact' %}" class="contact-bar-btn">Contact Support</a>
+    </div>
+</div>
+
+<button id="scrollTopBtn" class="scroll-top-btn" onclick="scrollToTop()">
+    <i class="fas fa-arrow-up"></i>
+</button>
+
+<footer class="contact-footer">
+    <div class="footer-content">
+        <div class="footer-logo">
+            Pak<span>Livestock</span>
+        </div>
+        <p class="copyright">&copy; 2026 PakLivestock. All rights reserved.</p>
+    </div>
+</footer>
+    <script src="{% static 'scroll.js' %}"></script>
+
+<script src="{% static 'favourite.js' %}?v=2"></script>
+</body> </html>
