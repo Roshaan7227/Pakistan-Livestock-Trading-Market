@@ -8,45 +8,6 @@ from django.core.mail import send_mail
 from .models import Contact, Livestock, LivestockGallery, Favorite, Notification
 from django.contrib import messages
 
-@login_required
-def get_notifications(request):
-    notifications = Notification.objects.filter(recipient=request.user).order_by('-created_at')
-    unread_count = Notification.objects.filter(recipient=request.user, is_read=False).count()
-    
-    return JsonResponse({
-        'count': unread_count,
-        'notifications': [
-            {
-                'id': n.id,
-                'message': n.message,
-                'type': n.notification_type,
-                'created_at': n.created_at.strftime("%Y-%m-%d %H:%M"),
-                'livestock_id': n.livestock.id if n.livestock else None,
-                'is_read': n.is_read,
-            } for n in notifications
-        ]
-    })
-
-@login_required
-def delete_notification(request, notification_id):
-    if request.method == 'DELETE':
-        notification = get_object_or_404(Notification, id=notification_id, recipient=request.user)
-        notification.delete()
-        return JsonResponse({'status': 'success'})
-    return JsonResponse({'error': 'Invalid method'}, status=400)
-
-@login_required
-def mark_notification_read(request, notification_id):
-    notification = Notification.objects.get(id=notification_id, recipient=request.user)
-    notification.is_read = True
-    notification.save()
-    return JsonResponse({'status': 'success'})
-
-@login_required
-def mark_all_notifications_read(request):
-    Notification.objects.filter(recipient=request.user, is_read=False).update(is_read=True)
-    return JsonResponse({'status': 'success'})
-
 
 @login_required
 def get_livestock_details(request, livestock_id):
@@ -422,3 +383,43 @@ def favorites_count(request):
     else:
         count = 0
     return JsonResponse({'count': count})
+
+
+@login_required
+def get_notifications(request):
+    notifications = Notification.objects.filter(recipient=request.user).order_by('-created_at')
+    unread_count = Notification.objects.filter(recipient=request.user, is_read=False).count()
+    
+    return JsonResponse({
+        'count': unread_count,
+        'notifications': [
+            {
+                'id': n.id,
+                'message': n.message,
+                'type': n.notification_type,
+                'created_at': n.created_at.strftime("%Y-%m-%d %H:%M"),
+                'livestock_id': n.livestock.id if n.livestock else None,
+                'is_read': n.is_read,
+            } for n in notifications
+        ]
+    })
+
+@login_required
+def delete_notification(request, notification_id):
+    if request.method == 'DELETE':
+        notification = get_object_or_404(Notification, id=notification_id, recipient=request.user)
+        notification.delete()
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'error': 'Invalid method'}, status=400)
+
+@login_required
+def mark_notification_read(request, notification_id):
+    notification = Notification.objects.get(id=notification_id, recipient=request.user)
+    notification.is_read = True
+    notification.save()
+    return JsonResponse({'status': 'success'})
+
+@login_required
+def mark_all_notifications_read(request):
+    Notification.objects.filter(recipient=request.user, is_read=False).update(is_read=True)
+    return JsonResponse({'status': 'success'})
