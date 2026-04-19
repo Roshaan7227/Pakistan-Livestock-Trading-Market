@@ -279,6 +279,36 @@ body{
     margin-top:5px;
 }
 
+.messages{
+    margin-bottom:20px;
+}
+
+.alert{
+    padding:12px 14px;
+    border-radius:10px;
+    font-size:0.85rem;
+    font-weight:500;
+    margin-bottom:10px;
+}
+
+.alert-error{
+    background:#fde7e9;
+    color:#842029;
+    border:1px solid #f5c2c7;
+}
+
+.alert-success{
+    background:#e8f7ee;
+    color:#0f5132;
+    border:1px solid #badbcc;
+}
+
+.alert-warning{
+    background:#fff8e1;
+    color:#7a5d00;
+    border:1px solid #ffe69c;
+}
+
 .form-group{
     margin-bottom:20px;
 }

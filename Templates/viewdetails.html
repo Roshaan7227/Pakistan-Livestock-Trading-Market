@@ -66,7 +66,7 @@
                 {% endif %}
 
                 <div class="price-badge-large">
-                    <i class="fas fa-rupee-sign"></i> {{ livestock.price }}
+                    <i class="fas fa-rupee-sign"></i> {{ livestock.price|default:"0.00" }}
                 </div>
             </div>
 
@@ -90,6 +90,12 @@
                         <i class="fas fa-weight"></i>
                         <span class="info-label">Weight</span>
                         <span class="info-data">{{ livestock.weight }} kg</span>
+                    </div>
+
+                    <div class="info-card">
+                        <i class="fas fa-tags"></i>
+                        <span class="info-label">Price</span>
+                        <span class="info-data"><i class="fas fa-rupee-sign"></i> {{ livestock.price|default:"0.00" }}</span>
                     </div>
 
                     <div class="info-card">
