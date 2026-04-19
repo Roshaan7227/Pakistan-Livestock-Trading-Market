@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.core.validators import MinValueValidator
 
 class Livestock(models.Model):
     SPECIES_CHOICES = [
@@ -15,6 +16,7 @@ class Livestock(models.Model):
         ('cat', 'Cat'),
         ('pigeon', 'Pigeon'),
         ('rabbit', 'Rabbit'),
+        ('horse', 'Horse'),
     ]
 
     HEALTH_STATUS_CHOICES = [
@@ -30,16 +32,30 @@ class Livestock(models.Model):
     
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='livestock')
     species = models.CharField(max_length=20, choices=SPECIES_CHOICES)
-    breed = models.CharField(max_length=100)
+    breed = models.CharField(max_length=30)
     image = models.ImageField(upload_to='livestock_images/')
-    age = models.PositiveIntegerField(blank=True, null=True)
-    weight = models.FloatField(blank=True, null=True)
+    age = models.PositiveIntegerField(
+        blank=True,
+        null=True,
+        validators=[MinValueValidator(1, message='Value should be positive.')]
+    )
+    weight = models.FloatField(
+        blank=True, 
+        null=True,
+        validators=[MinValueValidator(0.01, message='Value should be positive.')]
+    )
     health = models.CharField(max_length=20, choices=HEALTH_STATUS_CHOICES, blank=True, null=True)
-    location = models.CharField(max_length=200)
+    location = models.CharField(max_length=50)
     description = models.TextField(blank=True, null=True)
-    price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    price = models.DecimalField(
+        max_digits=10, 
+        decimal_places=2, 
+        blank=True, 
+        null=True,
+        validators=[MinValueValidator(0.01, message='Price should be positive.')]
+    )
     phone = models.CharField(max_length=14, blank=True, null=True)
-    owner_name = models.CharField(max_length=100, blank=True, null=True)
+    owner_name = models.CharField(max_length=50, blank=True, null=True)
     availability_status = models.CharField(max_length=20, default='available')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -49,7 +65,7 @@ class Livestock(models.Model):
         Format age in months to human readable format like '2 years 3 months' or '18 months'
         """
         if self.age is None:
-            return "N/A"
+            return "Age not provided"
         
         total_months = int(self.age)
         years = total_months // 12
@@ -74,7 +90,7 @@ class LivestockGallery(models.Model):
 
 
 class Contact(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='contacts', null=True, blank=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(max_length=100)
     email = models.EmailField()
     phone = models.CharField(max_length=13)

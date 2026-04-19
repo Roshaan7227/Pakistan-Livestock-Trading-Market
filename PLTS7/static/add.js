@@ -15,9 +15,17 @@ function formatAgeInput() {
  
     ageInput.addEventListener('input', function() {
         const value = this.value.toLowerCase();
+        const hasNegativeAge = /(^|\s)-\s*\d/.test(value);
         const hasValidPattern = /\d/.test(value) && (value.includes('year') || value.includes('month'));        
         const hasOnlyNumber = /^\d+$/.test(value.replace(/\s/g, ''));        
         const isValid = hasValidPattern || hasOnlyNumber;
+
+        if (hasNegativeAge) {
+            this.setCustomValidity('Value should be positive.');
+            this.style.borderColor = '#dc3545';
+            return;
+        }
+        this.setCustomValidity('');
         
         if (isValid) {
             this.style.borderColor = '#2E5A3F';
@@ -87,6 +95,18 @@ document.addEventListener('DOMContentLoaded', function() {
     const form = document.querySelector('.add-livestock-form');
     if(form) {
         form.addEventListener('submit', function(e) {
+            const ageInput = document.getElementById('age');
+            if (ageInput) {
+                const hasNegativeAge = /(^|\s)-\s*\d/.test(ageInput.value.trim());
+                if (hasNegativeAge) {
+                    e.preventDefault();
+                    ageInput.setCustomValidity('Value should be positive.');
+                    ageInput.reportValidity();
+                    return false;
+                }
+                ageInput.setCustomValidity('');
+            }
+
             const mainImage = document.getElementById('image').files.length;
             const additionalImages = document.getElementById('additional_images').files.length;
             

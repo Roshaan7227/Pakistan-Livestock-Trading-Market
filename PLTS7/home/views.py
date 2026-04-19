@@ -9,46 +9,6 @@ from .models import Contact, Livestock, LivestockGallery, Favorite, Notification
 from django.contrib import messages
 
 @login_required
-def get_notifications(request):
-    notifications = Notification.objects.filter(recipient=request.user).order_by('-created_at')
-    unread_count = Notification.objects.filter(recipient=request.user, is_read=False).count()
-    
-    return JsonResponse({
-        'count': unread_count,
-        'notifications': [
-            {
-                'id': n.id,
-                'message': n.message,
-                'type': n.notification_type,
-                'created_at': n.created_at.strftime("%Y-%m-%d %H:%M"),
-                'livestock_id': n.livestock.id if n.livestock else None,
-                'is_read': n.is_read,
-            } for n in notifications
-        ]
-    })
-
-@login_required
-def delete_notification(request, notification_id):
-    if request.method == 'DELETE':
-        notification = get_object_or_404(Notification, id=notification_id, recipient=request.user)
-        notification.delete()
-        return JsonResponse({'status': 'success'})
-    return JsonResponse({'error': 'Invalid method'}, status=400)
-
-@login_required
-def mark_notification_read(request, notification_id):
-    notification = Notification.objects.get(id=notification_id, recipient=request.user)
-    notification.is_read = True
-    notification.save()
-    return JsonResponse({'status': 'success'})
-
-@login_required
-def mark_all_notifications_read(request):
-    Notification.objects.filter(recipient=request.user, is_read=False).update(is_read=True)
-    return JsonResponse({'status': 'success'})
-
-
-@login_required
 def get_livestock_details(request, livestock_id):
     livestock = get_object_or_404(Livestock, id=livestock_id)
     data = {
@@ -169,7 +129,7 @@ def qurbani_guide_view(request):
 
 def livestock_type(request, species):
     if species == 'home pets':
-        livestock_data = Livestock.objects.filter(species__in=['parrot', 'dog', 'cat', 'pigeon', 'rabbit'])
+        livestock_data = Livestock.objects.filter(species__in=['parrot', 'dog', 'cat', 'pigeon', 'rabbit', 'horse'])
     else:
         livestock_data = Livestock.objects.filter(species=species)
     template_map = {
@@ -190,6 +150,12 @@ def update_livestock_status(request, pk):
     livestock_obj = get_object_or_404(Livestock, pk=pk)
     if livestock_obj.user != request.user:
         return HttpResponseForbidden('You are not allowed to update this livestock.')
+
+    context = {
+        'livestock': livestock_obj,
+        'health_choices': Livestock.HEALTH_STATUS_CHOICES,
+        'availability_choices': Livestock.AVAILABILITY_STATUS_CHOICES
+    }
     
     if request.method == 'POST':
         health_status = request.POST.get('health_status')
@@ -210,10 +176,15 @@ def update_livestock_status(request, pk):
         
         if age:
             try:
-                livestock_obj.age = int(age)
+                age_value = int(age)
+                if age_value < 0:
+                    messages.error(request, 'Value should be positive.')
+                    return render(request, 'updatestatus.html', context)
+                livestock_obj.age = age_value
                 updated = True
             except ValueError:
-                pass
+                messages.error(request, 'Please enter a valid age in months.')
+                return render(request, 'updatestatus.html', context)
         
         if weight:
             try:
@@ -233,11 +204,7 @@ def update_livestock_status(request, pk):
         else:
             messages.warning(request, 'No changes were made.')
         
-    return render(request, 'updatestatus.html', {
-        'livestock': livestock_obj,
-        'health_choices': Livestock.HEALTH_STATUS_CHOICES,
-        'availability_choices': Livestock.AVAILABILITY_STATUS_CHOICES
-    })
+    return render(request, 'updatestatus.html', context)
 
 @login_required(login_url='/accounts/login/')
 def deletelivestock(request, pk):
@@ -247,7 +214,7 @@ def deletelivestock(request, pk):
     if request.method == 'POST':
         livestock_obj.delete()
         
-        home_pet_species = ['parrot', 'dog', 'cat', 'pigeon', 'rabbit']
+        home_pet_species = ['parrot', 'dog', 'cat', 'pigeon', 'rabbit', 'horse']
         
         if livestock_obj.species in home_pet_species:
             return redirect('homepetslis', species='home pets')
@@ -270,29 +237,35 @@ def deletelivestock(request, pk):
 
 def parse_age(age_str):
     if not age_str:
-        return 0
+        return None
     
     age_str = age_str.lower().strip()
     
-    years_match = re.search(r'(\d+(?:\.\d+)?)\s*(?:year|years)', age_str)
-    months_match = re.search(r'(\d+(?:\.\d+)?)\s*(?:month|months)', age_str)
+    years_match = re.search(r'([+-]?\d+(?:\.\d+)?)\s*(?:year|years)', age_str)
+    months_match = re.search(r'([+-]?\d+(?:\.\d+)?)\s*(?:month|months)', age_str)
     
-    total_months = 0
+    total_months = 0.0
     
     if years_match:
         years = float(years_match.group(1))
+        if years < 0:
+            return None
         total_months += years * 12
     
     if months_match:
         months = float(months_match.group(1))
+        if months < 0:
+            return None
         total_months += months
     
     if not years_match and not months_match:
-        try:
-            num = float(re.search(r'(\d+(?:\.\d+)?)', age_str).group(1))
-            total_months = num * 12
-        except AttributeError:
-            return 0
+        numeric_match = re.search(r'([+-]?\d+(?:\.\d+)?)', age_str)
+        if not numeric_match:
+            return None
+        num = float(numeric_match.group(1))
+        if num < 0:
+            return None
+        total_months = num * 12
     
     return int(total_months)
 
@@ -319,7 +292,41 @@ def add_livestock(request):
         if species == 'home pets' and pet_type:
             species = pet_type
 
-        if not breed or not species or not image or not age or not weight or not health or not location or not price or not phone:
+        if age_input and age is None:
+            if re.search(r'-\s*\d', age_input):
+                messages.error(request, 'Value should be positive.')
+            else:
+                messages.error(request, 'Please enter a valid age.')
+            return render(request, 'addlive.html')
+
+        if price:
+            try:
+                price_value = float(price)
+                if price_value <= 0:
+                    messages.error(request, 'Price should be positive.')
+                    return render(request, 'addlive.html')
+            except ValueError:
+                messages.error(request, 'Please enter a valid price.')
+                return render(request, 'addlive.html')
+        else:
+            messages.error(request, 'Price is required.')
+            return render(request, 'addlive.html')
+
+        # Validate weight is positive
+        if weight:
+            try:
+                weight_value = float(weight)
+                if weight_value <= 0:
+                    messages.error(request, 'Weight should be positive.')
+                    return render(request, 'addlive.html')
+            except ValueError:
+                messages.error(request, 'Please enter a valid weight.')
+                return render(request, 'addlive.html')
+        else:
+            messages.error(request, 'Weight is required.')
+            return render(request, 'addlive.html')
+
+        if not breed or not species or not image or not health or not location or not phone:
             messages.error(request, 'Please fill in all required fields including Phone Number.')
             return render(request, 'addlive.html')
 
@@ -422,3 +429,43 @@ def favorites_count(request):
     else:
         count = 0
     return JsonResponse({'count': count})
+
+
+@login_required
+def get_notifications(request):
+    notifications = Notification.objects.filter(recipient=request.user).order_by('-created_at')
+    unread_count = Notification.objects.filter(recipient=request.user, is_read=False).count()
+    
+    return JsonResponse({
+        'count': unread_count,
+        'notifications': [
+            {
+                'id': n.id,
+                'message': n.message,
+                'type': n.notification_type,
+                'created_at': n.created_at.strftime("%Y-%m-%d %H:%M"),
+                'livestock_id': n.livestock.id if n.livestock else None,
+                'is_read': n.is_read,
+            } for n in notifications
+        ]
+    })
+
+@login_required
+def delete_notification(request, notification_id):
+    if request.method == 'DELETE':
+        notification = get_object_or_404(Notification, id=notification_id, recipient=request.user)
+        notification.delete()
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'error': 'Invalid method'}, status=400)
+
+@login_required
+def mark_notification_read(request, notification_id):
+    notification = Notification.objects.get(id=notification_id, recipient=request.user)
+    notification.is_read = True
+    notification.save()
+    return JsonResponse({'status': 'success'})
+
+@login_required
+def mark_all_notifications_read(request):
+    Notification.objects.filter(recipient=request.user, is_read=False).update(is_read=True)
+    return JsonResponse({'status': 'success'})
