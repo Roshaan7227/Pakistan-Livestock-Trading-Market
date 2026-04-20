@@ -42,7 +42,6 @@ def home_view(request):
 
 def search_livestock(request):
     query = request.GET.get('q', '') 
-    location = request.GET.get('location', '')
     species = request.GET.get('species', '')
     min_price = request.GET.get('min_price', '')
     max_price = request.GET.get('max_price', '')
@@ -52,12 +51,8 @@ def search_livestock(request):
     if query:
         livestock_list = livestock_list.filter(
             models.Q(breed__icontains=query) |
-            models.Q(description__icontains=query) |
-            models.Q(location__icontains=query)
+            models.Q(description__icontains=query)
         )
-    
-    if location:
-        livestock_list = livestock_list.filter(location__icontains=location)
     
     if species:
         livestock_list = livestock_list.filter(species=species)
@@ -76,16 +71,12 @@ def search_livestock(request):
         except ValueError:
             pass
     
-    all_locations = Livestock.objects.filter(availability_status='available').values_list('location', flat=True).distinct().order_by('location')
-    
     context = {
         'livestock_list': livestock_list,
         'query': query,
-        'location_filter': location,
         'species_filter': species,
         'min_price': min_price,
         'max_price': max_price,
-        'locations': all_locations,
         'species_choices': Livestock.SPECIES_CHOICES,
         'total_results': livestock_list.count(),
     }

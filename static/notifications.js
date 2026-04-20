@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let isDropdownOpen = false;
     let allNotifications = []; 
     
-    
     function getCookie(name) {
         let cookieValue = null;
         if (document.cookie && document.cookie !== '') {
