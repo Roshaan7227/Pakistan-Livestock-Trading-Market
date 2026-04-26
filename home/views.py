@@ -303,7 +303,6 @@ def add_livestock(request):
             messages.error(request, 'Price is required.')
             return render(request, 'addlive.html')
 
-        # Validate weight is positive
         if weight:
             try:
                 weight_value = float(weight)
