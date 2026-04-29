@@ -120,7 +120,7 @@ def qurbani_guide_view(request):
 
 def livestock_type(request, species):
     if species == 'home pets':
-        livestock_data = Livestock.objects.filter(species__in=['parrot', 'dog', 'cat', 'pigeon', 'rabbit', 'horse'])
+        livestock_data = Livestock.objects.filter(species__in=['parrot', 'dog', 'cat', 'pigeon', 'rabbit'])
     else:
         livestock_data = Livestock.objects.filter(species=species)
     template_map = {
@@ -205,7 +205,7 @@ def deletelivestock(request, pk):
     if request.method == 'POST':
         livestock_obj.delete()
         
-        home_pet_species = ['parrot', 'dog', 'cat', 'pigeon', 'rabbit', 'horse']
+        home_pet_species = ['parrot', 'dog', 'cat', 'pigeon', 'rabbit']
         
         if livestock_obj.species in home_pet_species:
             return redirect('homepetslis', species='home pets')

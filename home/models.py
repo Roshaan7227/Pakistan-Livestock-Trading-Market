@@ -16,7 +16,6 @@ class Livestock(models.Model):
         ('cat', 'Cat'),
         ('pigeon', 'Pigeon'),
         ('rabbit', 'Rabbit'),
-        ('horse', 'Horse'),
     ]
 
     HEALTH_STATUS_CHOICES = [
@@ -32,7 +31,7 @@ class Livestock(models.Model):
     
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='livestock')
     species = models.CharField(max_length=20, choices=SPECIES_CHOICES)
-    breed = models.CharField(max_length=30, blank=True, null=True)
+    breed = models.CharField(max_length=30)
     image = models.ImageField(upload_to='livestock_images/')
     age = models.PositiveIntegerField(
         blank=True,
