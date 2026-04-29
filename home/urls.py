@@ -23,6 +23,7 @@ urlpatterns =[
     path('blog/', views.blog_view, name='blog'),
     path('10things/', views.ten_things_view, name='10things'),
     path('health-guide/', views.health_guide_view, name='health_guide'),
+    path('health_guide/', views.health_guide_view, name='health_guide_legacy'),
     path('market-trends/', views.market_trends_view, name='market_trends'),
     path('digital-trading/', views.digital_trading_view, name='digital_trading'),
     path('farmer-story/', views.farmer_story_view, name='farmer_story'),
