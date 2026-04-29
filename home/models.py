@@ -32,7 +32,7 @@ class Livestock(models.Model):
     
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='livestock')
     species = models.CharField(max_length=20, choices=SPECIES_CHOICES)
-    breed = models.CharField(max_length=30)
+    breed = models.CharField(max_length=30, blank=True, null=True)
     image = models.ImageField(upload_to='livestock_images/')
     age = models.PositiveIntegerField(
         blank=True,
