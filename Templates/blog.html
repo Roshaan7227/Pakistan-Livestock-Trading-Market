@@ -113,6 +113,32 @@
             <img src="{% static 'images/buffalo2.jpg' %}" alt="Qurbani Tips">
         </div>
     </section>
+
+    <!-- Related Articles Section -->
+    <section class="related-articles-full">
+        <div class="related-header">
+            <h3>Related Articles</h3>
+        </div>
+        <div class="posts-grid-full">
+            <div class="post-card-full">
+                <img src="{% static 'images/cow3.jpg' %}" alt="10 Things to Check">
+                <a href="{% url '10things' %}">10 Things to Check Before Buying a Cow</a>
+            </div>
+            <div class="post-card-full">
+                <img src="{% static 'images/sheep2.jpg' %}" alt="Health Guide">
+                <a href="{% url 'health_guide' %}">Complete Health Guide for Dairy Cattle</a>
+            </div>
+            <div class="post-card-full">
+                <img src="{% static 'images/background3.jpg' %}" alt="Market Trends">
+                <a href="{% url 'market_trends' %}">Livestock Market Trends 2026</a>
+            </div>
+            <div class="post-card-full">
+                <img src="{% static 'images/ox1.jpg' %}" alt="Digital Trading">
+                <a href="{% url 'digital_trading' %}">How Digital Platforms Are Changing Livestock Trading</a>
+            </div>
+        </div>
+    </section>
+
     <div class="contact-bar">
         <div class="contact-bar-content">
             <div class="contact-text">

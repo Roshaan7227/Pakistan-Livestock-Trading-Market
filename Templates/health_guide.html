@@ -32,21 +32,35 @@
         </nav>
     </header>
 
-    <section class="hero"> 
-    <div class="hero-overlay">
+    <section class="hero">
+        <div class="hero-overlay">
             <h1>Complete Health Guide for Dairy Cattle</h1>
-            <p> Dairy Cattle Care</p>
+            <p>Dairy Cattle Care</p>
         </div>
     </section>
 
-    <div class="container">
-        <main class="blog-content">
+    <style>
+        .hero {
+            background: url('{% static "images/sheep2.jpg" %}');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+
+    <section class="split-section">
+        <div class="image-left">
+            <img src="{% static 'images/sheep5.jpg' %}" alt="Healthy Dairy Cow">
+        </div>
+
+        <div class="text-right">
             <h2>Maintaining Healthy and Productive Dairy Animals</h2>
             <p>Learn essential practices for keeping your dairy cattle healthy, productive, and profitable throughout their lifecycle.</p>
-            <img src="{% static 'images/sheep5.jpg' %}" alt="Healthy Dairy Cow" class="main-image">
+        </div>
+    </section>
 
+    <section class="split-section reverse">
+        <div class="text-left">
             <h2>1. Nutrition and Feeding</h2>
-            <img src="{% static 'images/goat5.jpg' %}" alt="Cattle Feeding" class="inline-img">
             <p>Proper nutrition is the foundation of dairy cattle health:</p>
             <ul>
                 <li>Balanced diet with adequate protein, energy, and fiber</li>
@@ -55,9 +69,20 @@
                 <li>Mineral supplements and vitamins as needed</li>
                 <li>Regular feeding schedule and monitoring</li>
             </ul>
+        </div>
 
+        <div class="image-right">
+            <img src="{% static 'images/goat5.jpg' %}" alt="Cattle Feeding">
+        </div>
+    </section>
+
+    <section class="split-section">
+        <div class="image-left">
+            <img src="{% static 'images/goat9.jpg' %}" alt="Cattle Housing">
+        </div>
+
+        <div class="text-right">
             <h2>2. Housing and Environment</h2>
-            <img src="{% static 'images/goat9.jpg' %}" alt="Cattle Housing" class="inline-img">
             <p>Create optimal living conditions for your dairy animals:</p>
             <ul>
                 <li>Well-ventilated, clean, and dry housing</li>
@@ -66,9 +91,19 @@
                 <li>Protection from extreme weather conditions</li>
                 <li>Regular cleaning and disinfection protocols</li>
             </ul>
+        </div>
+    </section>
 
+    <div class="quote-container">
+        <blockquote>
+            "A healthy herd is a profitable herd. Prevention is always better than cure when it comes to livestock management."
+            <span class="quote-author">— Expert Veterinarian</span>
+        </blockquote>
+    </div>
+
+    <section class="split-section reverse">
+        <div class="text-left">
             <h2>3. Health Monitoring and Prevention</h2>
-            <img src="{% static 'images/sheep9.jpg' %}" alt="Health Monitoring" class="inline-img">
             <p>Implement regular health checks and preventive measures:</p>
             <ul>
                 <li>Daily observation for signs of illness or distress</li>
@@ -77,9 +112,20 @@
                 <li>Hoof care and regular trimming</li>
                 <li>Mastitis prevention and udder health monitoring</li>
             </ul>
+        </div>
 
+        <div class="image-right">
+            <img src="{% static 'images/sheep9.jpg' %}" alt="Health Monitoring">
+        </div>
+    </section>
+
+    <section class="split-section">
+        <div class="image-left">
+            <img src="{% static 'images/goat3.jpg' %}" alt="Breeding">
+        </div>
+
+        <div class="text-right">
             <h2>4. Breeding and Reproduction</h2>
-            <img src="{% static 'images/goat3.jpg' %}" alt="Breeding" class="inline-img">
             <p>Ensure successful breeding and calving:</p>
             <ul>
                 <li>Proper breeding timing and management</li>
@@ -88,9 +134,12 @@
                 <li>Newborn calf care and colostrum management</li>
                 <li>Post-calving health monitoring</li>
             </ul>
+        </div>
+    </section>
 
+    <section class="split-section reverse">
+        <div class="text-left">
             <h2>5. Milking Hygiene</h2>
-            
             <p>Maintain milk quality and udder health:</p>
             <ul>
                 <li>Clean udder preparation before milking</li>
@@ -99,31 +148,39 @@
                 <li>Milk storage and cooling procedures</li>
                 <li>Regular equipment maintenance and cleaning</li>
             </ul>
-        </main>
+        </div>
 
-        <aside class="sidebar">
-            <div class="related-posts">
-                <h3>Related Articles</h3>
-                <div class="post-card">
-                    <img src="{% static 'images/cow3.jpg' %}" alt="Post">
-                    <a href="{% url '10things' %}">10 Things to Check Before Buying a Cow</a>
-                </div>
-                <div class="post-card">
-                    <img src="{% static 'images/background3.jpg' %}" alt="Post">
-                    <a href="{% url 'market_trends' %}">Livestock Market Trends 2026</a>
-                </div>
-                <div class="post-card">
-                    <img src="{% static 'images/buffalo2.jpg' %}" alt="Post">
-                    <a href="{% url 'qurbani_guide' %}">Top Tips for Selling Qurbani Animals</a>
-                </div>
-                <div class="post-card">
-                    <img src="{% static 'images/ox1.jpg' %}" alt="Post">
-                    <a href="{% url 'digital_trading' %}">How Digital Platforms Are Changing Livestock Trading</a>
-                </div>
+        <div class="image-right">
+            <img src="{% static 'images/cow3.jpg' %}" alt="Milking Hygiene">
+        </div>
+    </section>
+
+    <div class="related-articles-full">
+        <div class="related-header">
+            <h3>Related Articles</h3>
+        </div>
+
+        <div class="posts-grid-full">
+            <div class="post-card-full">
+                <img src="{% static 'images/cow3.jpg' %}" alt="Post">
+                <a href="{% url '10things' %}">10 Things to Check Before Buying a Cow</a>
             </div>
 
-            
-        </aside>
+            <div class="post-card-full">
+                <img src="{% static 'images/background3.jpg' %}" alt="Post">
+                <a href="{% url 'market_trends' %}">Livestock Market Trends 2026</a>
+            </div>
+
+            <div class="post-card-full">
+                <img src="{% static 'images/buffalo2.jpg' %}" alt="Post">
+                <a href="{% url 'qurbani_guide' %}">Top Tips for Selling Qurbani Animals</a>
+            </div>
+
+            <div class="post-card-full">
+                <img src="{% static 'images/ox1.jpg' %}" alt="Post">
+                <a href="{% url 'digital_trading' %}">How Digital Platforms Are Changing Livestock Trading</a>
+            </div>
+        </div>
     </div>
 
      <div class="contact-bar">
