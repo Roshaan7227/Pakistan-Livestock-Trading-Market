@@ -1,0 +1,192 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Health Guide for Dairy Cattle - Pakistan Livestock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'blog.css' %}">
+    <link rel="stylesheet" href="{% static 'navbar.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    {% include 'navbar.html' %}
+    
+    <section class="hero" style="--hero-bg: url('{% static 'images/sheep5.jpg' %}');"> 
+        <div class="hero-overlay">
+            <h1>Complete Health Guide for Dairy Cattle</h1>
+            <p>Essential Dairy Cattle Care & Management</p>
+        </div>
+    </section>
+
+    <section class="split-section">
+        <div class="image-left">
+            <img src="{% static 'images/sheep5.jpg' %}" alt="Healthy Dairy Cow">
+        </div>
+
+        <div class="text-right">
+            <h2>Maintaining Healthy and Productive Dairy Animals</h2>
+            <p>
+                Learn essential practices for keeping your dairy cattle healthy, productive, and profitable throughout their lifecycle. 
+                A healthy animal is the foundation of a successful dairy farm.
+            </p>
+
+            <div class="tip-box">
+                <h4> Health Tip </h4>
+                <p>Early detection of illness can save lives and reduce treatment costs significantly.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="split-section reverse">
+        <div class="text-left">
+            <div class="checklist-item">
+                <h3>1. Nutrition and Feeding</h3>
+                <p>Proper nutrition is the foundation of dairy cattle health:</p>
+                <ul>
+                    <li>Balanced diet with adequate protein, energy, and fiber</li>
+                    <li>Fresh, clean water available at all times</li>
+                    <li>Quality forage and supplementary feeds</li>
+                    <li>Mineral supplements and vitamins as needed</li>
+                    <li>Regular feeding schedule and monitoring</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="image-right">
+            <img src="{% static 'images/goat5.jpg' %}" alt="Cattle Feeding">
+        </div>
+    </section>
+
+    <section class="split-section">
+        <div class="image-left">
+            <img src="{% static 'images/goat9.jpg' %}" alt="Cattle Housing">
+        </div>
+
+        <div class="text-right">
+            <div class="checklist-item">
+                <h3>2. Housing and Environment</h3>
+                <p>Create optimal living conditions for your dairy animals:</p>
+                <ul>
+                    <li>Well-ventilated, clean, and dry housing</li>
+                    <li>Adequate space for movement and comfort</li>
+                    <li>Proper drainage and waste management</li>
+                    <li>Protection from extreme weather conditions</li>
+                    <li>Regular cleaning and disinfection protocols</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="split-section reverse">
+        <div class="text-left">
+            <div class="checklist-item">
+                <h3>3. Health Monitoring and Prevention</h3>
+                <p>Implement regular health checks and preventive measures:</p>
+                <ul>
+                    <li>Daily observation for signs of illness or distress</li>
+                    <li>Regular veterinary check-ups and vaccinations</li>
+                    <li>Parasite control and deworming programs</li>
+                    <li>Hoof care and regular trimming</li>
+                    <li>Mastitis prevention and udder health monitoring</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="image-right">
+            <img src="{% static 'images/sheep9.jpg' %}" alt="Health Monitoring">
+        </div>
+    </section>
+
+
+    <section class="split-section">
+        <div class="image-left">
+            <img src="{% static 'images/goat3.jpg' %}" alt="Breeding">
+        </div>
+
+        <div class="text-right">
+            <div class="checklist-item">
+                <h3>4. Breeding and Reproduction</h3>
+                <p>Ensure successful breeding and calving:</p>
+                <ul>
+                    <li>Proper breeding timing and management</li>
+                    <li>Prenatal care and nutrition for pregnant cows</li>
+                    <li>Assisted calving when necessary</li>
+                    <li>Newborn calf care and colostrum management</li>
+                    <li>Post-calving health monitoring</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="split-section reverse">
+        <div class="text-left">
+            <div class="checklist-item">
+                <h3>5. Milking Hygiene</h3>
+                <p>Maintain milk quality and udder health:</p>
+                <ul>
+                    <li>Clean udder preparation before milking</li>
+                    <li>Sterilized milking equipment</li>
+                    <li>Proper milking technique and frequency</li>
+                    <li>Milk storage and cooling procedures</li>
+                    <li>Regular equipment maintenance and cleaning</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="image-right">
+            <img src="{% static 'images/cow8.jpg' %}" alt="Milking Hygiene">
+        </div>
+    </section>
+
+
+    <div class="related-articles-full">
+        <div class="related-header">
+            <h3>Related Articles</h3>
+        </div>
+
+        <div class="posts-grid-full">
+            <div class="post-card-full">
+                <img src="{% static 'images/cow3.jpg' %}" alt="Post">
+                <a href="{% url '10things' %}">10 Things to Check Before Buying a Cow</a>
+            </div>
+
+            <div class="post-card-full">
+                <img src="{% static 'images/background3.jpg' %}" alt="Post">
+                <a href="{% url 'market_trends' %}">Livestock Market Trends 2026</a>
+            </div>
+
+            <div class="post-card-full">
+                <img src="{% static 'images/Buffalo2.jpg' %}" alt="Post">
+                <a href="{% url 'qurbani_guide' %}">Top Tips for Selling Qurbani Animals</a>
+            </div>
+
+            <div class="post-card-full">
+                <img src="{% static 'images/ox1.jpg' %}" alt="Post">
+                <a href="{% url 'digital_trading' %}">How Digital Platforms Are Changing Livestock Trading</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="contact-bar">
+        <div class="contact-bar-content">
+            <div class="contact-text">
+                <h3>Need Professional Advice?</h3>
+                <p>Have questions about animal health? Our team of experts is here to help!</p>
+            </div>
+            <a href="{% url 'contact' %}" class="contact-bar-btn">Contact Support</a>
+        </div>
+    </div>
+
+    <footer class="contact-footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                Pak<span>Livestock</span>
+            </div>
+            <p class="copyright">&copy; 2026 PakLivestock. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

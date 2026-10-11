@@ -1,0 +1,213 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Livestock - SMART LIVESTOCK</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'addliv1.css' %}">
+    <link rel="stylesheet" href="{% static 'navbar.css' %}">
+</head>
+<body>
+    
+    {% include 'navbar.html' %}
+    
+    <div class="background-overlay"></div>
+
+    <div class="container">
+        <div class="form-wrapper">
+            <div class="header">
+                <div class="logo">
+                    <span class="logo-text">
+                        <span class="ADD">ADD</span>
+                        <span class="LIVESTOCK">LIVESTOCK</span>
+                        <span class="FORM">FORM</span>
+                    </span>
+                </div>
+                <p class="subtitle">Fill in the details to add new livestock to your inventory</p>
+            </div>
+
+            <form method="post" class="add-livestock-form" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% if error %}
+                    <p class="form-error" role="alert">{{ error }}</p>
+                {% endif %}
+                <div class="form-row">
+                    <div class="column">
+                        <div class="form-group">
+                            <label for="animal_type">Animal Type</label>
+                            <select id="animal_type" name="animal_type" required>
+                                <option value="">Select Type</option>
+                                <option value="cow">Cow</option>
+                                <option value="goat">Goat</option>
+                                <option value="sheep">Sheep</option>
+                                <option value="buffalo">Buffalo</option>
+                                <option value="chicken">Chicken</option>
+                                <option value="ox">Ox</option>
+                                <option value="home pets">Home Pets</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" id="pet_type_container" style="display: none;">
+                            <label for="pet_type">Pet Type</label>
+                            <select id="pet_type" name="pet_type">
+                                <option value="">Select Pet Type</option>
+                                <option value="parrot">Parrot</option>
+                                <option value="dog">Dog</option>
+                                <option value="cat">Cat</option>
+                                <option value="pigeon">Pigeon</option>
+                                <option value="rabbit">Rabbit</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="breed">Breed</label>
+                            <input type="text" id="breed" name="breed"
+                                   placeholder="Enter breed name"
+                                   required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="health_status">Health Status</label>
+                            <select id="health_status" name="health_status" required>
+                                <option value="">Select Status</option>
+                                <option value="Healthy">Healthy</option>
+                                <option value="Good">Good</option>
+                                <option value="Critical">Critical</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="owner_name">Owner Name</label>
+                            <input type="text"
+                                   id="owner_name"
+                                   name="owner_name"
+                                   maxlength="35"
+                                   placeholder="Enter owner's full name"
+                                   pattern="[A-Za-z\s]+"
+                                   title="Only letters and spaces allowed"
+                                   required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel"
+                                   id="phone"
+                                   name="phone"
+                                   placeholder="03491234567"
+                                   pattern="03[0-9]{9}"
+                                   minlength="11"
+                                   maxlength="11"
+                                   inputmode="numeric"
+                                   title="Enter an 11-digit number starting with 03, e.g. 03491234567"
+                                   required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="location">Location</label>
+                            <input type="text"
+                                   id="location"
+                                   name="location"
+                                   placeholder="Enter location/address"
+                                   pattern="[A-Za-z0-9\s,.-]+"
+                                   title="Only letters, numbers and , . - allowed"
+                                   required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="price">Price</label>
+                            <input type="number"
+                                   id="price"
+                                   name="price"
+                                   placeholder="Enter price"
+                                   required>
+                        </div>
+                    </div>
+
+                    <div class="column">
+                        <div class="form-group">
+                            <label for="age">Age</label>
+                            <input type="text"
+                                   id="age"
+                                   name="age"
+                                   placeholder="Enter age (e.g., 2 years, 18 months, 2.5 years, etc.)"
+                                   title="Enter age in format like: 2 years, 18 months, 2.5 years, etc."
+                                   required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="weight">Weight (kg) </label>
+                            <input type="number"
+                                   id="weight"
+                                   name="weight"
+                                   placeholder="Enter weight in kg"
+                                   step="0.01"
+                                   required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="gender">Gender </label>
+                            <select id="gender" name="gender" required>
+                                <option value="">Select Gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="image">Main Image </label>
+                            <div class="file-upload">
+                                <input type="file"
+                                       id="image"
+                                       name="image"
+                                       accept="image/*"
+                                       required>
+                                <label for="image" class="file-label">Choose Main Image</label>
+                                <span class="file-name">No file chosen</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="additional_images">Additional Images </label>
+                            <div class="file-upload">
+                                <input type="file"
+                                       id="additional_images"
+                                       name="additional_images"
+                                       accept="image/*"
+                                       multiple>
+                                <label for="additional_images" class="file-label">
+                                    Choose Additional Images
+                                </label>
+                                <span class="file-name">No files chosen</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description">Description (Optional)</label>
+                            <textarea id="description"
+                                      name="description"
+                                      rows="4"
+                                      placeholder="Enter additional details"
+                                      pattern="[A-Za-z0-9\s,.-]*"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">SUBMIT</button>
+            </form> 
+        </div>
+    </div>
+
+    <footer class="contact-footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <span>SMART</span> LIVESTOCK
+            </div>
+            <p class="copyright">&copy; 2026 SMART LIVESTOCK. All rights reserved.</p>
+        </div>   
+    </footer>
+    <script src="{% static 'add.js' %}"></script>
+</body>
+</html>

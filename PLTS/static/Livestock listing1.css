@@ -1,0 +1,138 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: #ffffff;
+    min-height: 100vh;
+    color: #333;
+    font-family: 'Poppins', sans-serif;
+}
+
+.livestock-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px;
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.page-header h1 {
+    font-size: 42px;
+    color: #2E5A3F;
+    margin-bottom: 15px;
+}
+
+.page-header p {
+    font-size: 18px;
+    color: #666;
+}
+
+.livestock-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-bottom: 50px;
+}
+
+.livestock-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    text-align: center;
+}
+
+.livestock-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.livestock-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.livestock-card h3 {
+    padding: 20px 15px 10px;
+    font-size: 24px;
+    color: #333;
+}
+
+.see-more-link {
+    display: inline-block;
+    padding: 12px 20px;
+    color: #2E5A3F;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
+    margin-bottom: 20px;
+}
+
+.see-more-link:hover {
+    color: #1e3d2a;
+    text-decoration: underline;
+}
+
+.contact-footer {
+    background: #1a1a1a;
+    color: white;
+    padding: 30px 0;
+    margin-top: auto;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.footer-logo {
+    font-weight: 700;
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.footer-logo span {
+    color: #2E5A3F;
+}
+
+.copyright {
+    color: #bbb;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .page-header h1 {
+        font-size: 32px;
+    }
+
+    .livestock-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .livestock-container {
+        padding: 20px 15px;
+    }
+
+    .page-header h1 {
+        font-size: 28px;
+    }
+
+    .livestock-card img {
+        height: 150px;
+    }
+}

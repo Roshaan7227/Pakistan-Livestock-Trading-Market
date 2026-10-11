@@ -1,0 +1,194 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Results - Pakistan Livestock</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <link rel="stylesheet" href="{% static 'search_results.css' %}">
+    <link rel="stylesheet" href="{% static 'navbar.css' %}">
+</head>
+<body>
+
+{% include 'navbar.html' %}
+
+<section class="search-hero">
+    <div class="search-hero-content">
+        <h1>Search Results</h1>
+        <p class="search-message">
+        The answer you need is just one search away.
+        </p>
+    </div>
+</section>
+
+<div class="search-container">
+    <div class="filter-card">
+        <div class="filter-header">
+            <i class="fas fa-filter"></i>
+            <h3>Filter Results</h3>
+        </div>
+
+        <form method="GET" action="{% url 'search_livestock' %}" class="filter-form">
+
+            <div class="filter-row">
+
+                <div class="filter-input-group">
+                    <label><i class="fas fa-search"></i> Search</label>
+                    <input type="text" name="q" value="{{ query }}" placeholder="Search by breed, description...">
+                </div>
+
+                <div class="filter-input-group">
+                    <label><i class="fas fa-paw"></i> Animal Type</label>
+                    <select name="species">
+                        <option value="">All Types</option>
+                        {% for key, value in species_choices %}
+                            <option value="{{ key }}" {% if species_filter == key %}selected{% endif %}>
+                                {{ value }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="filter-input-group price-group">
+                    <label><i class="fas fa-tag"></i> Price Range (PKR)</label>
+
+                    <div class="price-inputs">
+                        <input type="number" name="min_price" value="{{ min_price }}" placeholder="Min" min="0">
+                        <span>—</span>
+                        <input type="number" name="max_price" value="{{ max_price }}" placeholder="Max" min="0">
+                    </div>
+                </div>
+
+                <button type="submit" class="apply-filter-btn">
+                    <i class="fas fa-check"></i> Apply Filters
+                </button>
+
+            </div>
+        </form>
+    </div>
+
+    {% csrf_token %}
+
+    <div class="results-section">
+
+        {% if livestock_list %}
+
+            <div class="results-grid">
+
+                {% for item in livestock_list %}
+                <div class="result-card">
+
+                    <div class="card-image">
+
+                        {% if item.image %}
+                            <img src="{{ item.image.url }}" alt="{{ item.breed }}">
+                        {% else %}
+                            <div class="no-image">
+                                <i class="fas fa-image"></i>
+                                <span>No Image</span>
+                            </div>
+                        {% endif %}
+
+                        <div class="price-badge">
+                            <i class="fas fa-tag"></i> ₨{{ item.price }}
+                        </div>
+
+                        {% if user.is_authenticated %}
+                    <button class="favorite-btn {% if item.id in favorite_ids %}active{% endif %}" data-id="{{ item.id }}">
+                        <i class="fas fa-heart"></i>
+                    </button>
+                    {% endif %}
+
+                    </div>
+
+                    <div class="card-info">
+                        <h3>{{ item.breed }}</h3>
+                        <span class="species-tag">
+                            {{ item.get_species_display }}
+                        </span>
+
+                        <div class="info-details">
+
+                            <div class="info-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>{{ item.location }}</span>
+                            </div>
+
+                            <div class="info-item">
+                                <i class="fas fa-weight-hanging"></i>
+                                <span>{{ item.weight|default:"N/A" }} kg</span>
+                            </div>
+
+                            <div class="info-item">
+                                <i class="fas fa-heartbeat"></i>
+                                <span class="health-{{ item.health|lower }}">
+                                    {{ item.get_health_display|default:"N/A" }}
+                                </span>
+                            </div>
+
+                            <div class="info-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>{{ item.get_formatted_age }}</span>
+                            </div>
+
+                        </div>
+                        <a href="{% url 'viewdetails' item.id %}" class="view-btn">
+                            View Details <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+
+            <div class="empty-state">
+                <i class="fas fa-search"></i>
+
+                <h2>No Results Found</h2>
+                <p>We couldn't find any livestock matching your criteria.</p>
+
+                <p class="try-suggestion">
+                    Try adjusting your filters or search terms
+                </p>
+
+                <a href="{% url 'home' %}" class="back-home">
+                    <i class="fas fa-home"></i> Back to Home
+                </a>
+            </div>
+        {% endif %}
+
+    </div>
+</div>
+
+<div class="contact-bar">
+    <div class="contact-bar-content">
+
+        <div class="contact-text">
+            <h3>Contact Us Now</h3>
+            <p>Have any questions? Reach out to our support team for guidance.</p>
+        </div>
+
+        <a href="{% url 'contact' %}" class="contact-bar-btn">
+            Contact Support
+        </a>
+
+    </div>
+</div>
+
+<footer class="contact-footer">
+    <div class="footer-content">
+        <div class="footer-logo">
+            Pak<span>Livestock</span>
+        </div>
+        <p class="copyright">&copy; 2026 PakLivestock. All rights reserved.</p>
+    </div>
+</footer>
+
+    <script src="{% static 'favourite.js' %}"></script>
+
+</body>
+</html>

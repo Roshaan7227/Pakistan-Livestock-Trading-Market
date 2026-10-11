@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Livestock Directory - Smart Livestock</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="{% static 'Livestock listing1.css' %}">
+    <link rel="stylesheet" href="{% static 'navbar.css' %}">
+</head>
+<body>
+
+    {% include 'navbar.html' %}
+
+    <main class="livestock-container">
+        <div class="page-header">
+            <h1>Livestock Types</h1>
+        </div>
+        
+        <div class="livestock-grid">
+            <div class="livestock-card">
+                <img src="{% static 'images/cow2.jpg' %}" alt="Cow">
+                <h3>Cow</h3>
+                <a href="{% url 'cowlis' 'cow' %}" class="see-more-link">See more...</a>
+            </div>
+
+            <div class="livestock-card">
+                <img src="{% static 'images/Goat11.jpg' %}" alt="Goat">
+                <h3>Goat</h3>
+                <a href="{% url 'goatlis' 'goat' %}" class="see-more-link">See more...</a>
+            </div>
+
+            <div class="livestock-card">
+                <img src="{% static 'images/sheep3.jpg' %}" alt="Sheep">
+                <h3>Sheep</h3>
+                <a href="{% url 'sheeplis' 'sheep' %}" class="see-more-link">See more...</a>
+            </div>
+
+            <div class="livestock-card">
+                <img src="{% static 'images/Buffalo1.jpg' %}" alt="Buffalo">
+                <h3>Buffalo</h3>
+                <a href="{% url 'buffalolis' 'buffalo' %}" class="see-more-link">See more...</a>
+            </div>
+
+            <div class="livestock-card">
+                <img src="{% static 'images/hen1.jpg' %}" alt="Chicken">
+                <h3>Chicken</h3>
+                <a href="{% url 'henlis' 'chicken' %}" class="see-more-link">See more...</a>
+            </div>
+
+            <div class="livestock-card">
+                <img src="{% static 'images/OX2.jpg' %}" alt="Oxen">
+                <h3>Ox</h3>
+                <a href="{% url 'oxlis' 'ox' %}" class="see-more-link">See more...</a>
+            </div>
+
+            <div class="livestock-card">
+                <img src="{% static 'images/Parrot1.jpg' %}" alt="Home Pets">
+                <h3>Home Pets</h3>
+                <a href="{% url 'homepetslis' 'home pets' %}" class="see-more-link">See more...</a>
+            </div>
+        </div>
+    </main>
+    <footer class="contact-footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                Pak<span>Livestock</span>
+            </div>
+            <p class="copyright">&copy; 2026 PakLivestock. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
