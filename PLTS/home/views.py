@@ -110,9 +110,6 @@ def market_trends_view(request):
 def digital_trading_view(request):
     return render(request, 'digital_trading.html')
 
-def farmer_story_view(request):
-    return render(request, 'farmer_story.html')
-
 def qurbani_guide_view(request):
     return render(request, 'qurbani_guide.html')
 
