@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Pets Listings - SMART LIVESTOCK</title>
+    <link rel="stylesheet" href="{% static 'alllisp.css' %}">
+    <link rel="stylesheet" href="{% static 'navbar.css' %}">
+    <link rel="stylesheet" href="{% static 'action-buttons.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    {% include 'navbar.html' %}
+
+     {% csrf_token %}
+    <main class="livestock-listings-container">
+        <div class="page-header">
+            <h1>Available Home Pets</h1>
+            <p>Browse our collection of home pets and companion animals</p>
+        </div>
+        
+        <div class="livestock-grid">
+            {% for pet in livestock_data %}
+            <div class="livestock-card">
+                <div class="card-image-container">
+                    {% if pet.image %}
+                        <img src="{{ pet.image.url }}" alt="{{ pet.breed }} Home Pet">
+                    {% else %}
+                        <img src="{% static 'images/Parrot1.jpg' %}" alt="{{ pet.breed }} Home Pet">
+                    {% endif %}
+                    
+
+                    {% if user.is_authenticated %}
+                    <button class="favorite-btn {% if pet.id in favorite_ids %}active{% endif %}" data-id="{{ pet.id }}">
+                        <i class="fas fa-heart"></i>
+                    </button>
+                    {% endif %}
+                </div>
+                <div class="card-content">
+                    <div class="animal-species">{{ pet.species|title }}</div>
+
+                    <h3>{{ pet.breed }}</h3>
+
+                    <div class="metadata">
+                        <span class="meta-item">Age: {{ pet.get_formatted_age }}</span>
+                        <span class="meta-item status-badge status-{{ pet.availability_status|lower }}">{{ pet.availability_status|title }}</span>
+                        <span class="meta-item">Weight: {{ pet.weight }} kg</span>
+                    </div>
+                    <div class="metadata">
+                        <span class="meta-item health-status {{ pet.health|lower }}">Health: {{ pet.health }}</span>
+                        <span class="meta-item">Location: {{ pet.location }}</span>
+                    </div>
+                    <div class="card-actions">
+                        <a href="{% url 'viewdetails' pet.id %}" class="view-details-link">View Details </a>
+                    </div>
+                    {% if user.is_authenticated and pet.user == user %}
+                    <div class="action-buttons">
+                        <a href="{% url 'updatestatus' pet.id %}" class="btn-update-status">
+                            <i class="fas fa-edit"></i> Update Status
+                        </a>
+                        <a href="{% url 'deletelivestock' pet.id %}" class="btn-delete" onclick="return confirm('Are you sure you want to delete this livestock? This action cannot be undone.')">
+                            <i class="fas fa-trash"></i> Delete
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </main>
+    <footer class="contact-footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                Pak<span>Livestock</span>
+            </div>
+            <p class="copyright">&copy; 2026 PakLivestock. All rights reserved.</p>
+        </div>   
+    </footer>
+    <script src="{% static 'favourite.js' %}"></script>
+</body>
+</html>

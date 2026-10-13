@@ -1,0 +1,114 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login to PAKISTAN LIVESTOCK</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'login.css' %}">
+    <link rel="stylesheet" href="{% static 'navbar.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+
+{% include 'navbar.html' %}
+
+<div class="login-main-wrapper">
+    <div class="login-wrapper">
+
+        <div class="login-left">
+            <div class="left-content">
+
+                <div class="quote-icon">
+                    <i class="fas fa-quote-left"></i>
+                </div>
+
+                <h1>Welcome Back to <span>Pakistan Livestock</span></h1>
+                <p>
+                    Login to access your dashboard, manage your listings,
+                    and connect with buyers and sellers across the country.
+                </p>
+
+                <div class="benefits">
+                    <div class="benefit-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Manage your livestock listings</span>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Track your favorites</span>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Connect with buyers instantly</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="login-right">
+            <div class="form-container">
+
+                <div class="form-header">
+                    <div class="icon-circle">
+                        <i class="fas fa-sign-in-alt"></i>
+                    </div>
+                    <h2>Welcome Back</h2>
+                    <p>Login to your account</p>
+                </div>
+
+                {% if messages %}
+                    <div class="messages">
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }}">
+                                <i class="fas fa-{% if message.tags == 'error' %}exclamation-circle{% else %}check-circle{% endif %}"></i>
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <form method="post" action="{% url 'login' %}" class="login-form">
+                    {% csrf_token %}
+                    
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" name="username" id="username" placeholder="Username" value="{{ username|default:'' }}" required>
+                    </div>
+
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" name="password" id="password" placeholder="Password" required>
+                    </div>
+
+                    <button type="submit" class="login-btn-submit">
+                        Login <i class="fas fa-arrow-right"></i>
+                    </button>
+
+                    <div class="signup-redirect">
+                        <p>Don't have an account? <a href="{% url 'signup' %}">Sign Up</a></p>
+                    </div>
+
+                </form>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<footer class="contact-footer">
+    <div class="footer-content">
+        <div class="footer-logo">
+            Pak<span>Livestock</span>
+        </div>
+        <p class="copyright">&copy; 2026 PakLivestock. All rights reserved.</p>
+    </div>
+</footer>
+</body>
+</html>
