@@ -183,6 +183,22 @@ def update_livestock_status(request, pk):
             livestock_obj.location = location
             updated = True
         
+        if livestock_obj.age is not None and livestock_obj.age < 0:
+            messages.error(request, 'Age cannot be negative. Please insert a positive value.')
+            return render(request, 'updatestatus.html', {
+                'livestock': livestock_obj,
+                'health_choices': Livestock.HEALTH_STATUS_CHOICES,
+                'availability_choices': Livestock.AVAILABILITY_STATUS_CHOICES
+            })
+
+        if livestock_obj.weight is not None and livestock_obj.weight < 0:
+            messages.error(request, 'Weight cannot be negative. Please insert a positive value.')
+            return render(request, 'updatestatus.html', {
+                'livestock': livestock_obj,
+                'health_choices': Livestock.HEALTH_STATUS_CHOICES,
+                'availability_choices': Livestock.AVAILABILITY_STATUS_CHOICES
+            })
+        
         if updated:
             livestock_obj.save()
             messages.success(request, 'Livestock details updated successfully!')
@@ -222,8 +238,6 @@ def deletelivestock(request, pk):
         else:
             return redirect('livestock')
     return render(request, 'deletelivestock.html', {'livestock': livestock_obj})
-
-
 
 def parse_age(age_str):
     if not age_str:
@@ -283,6 +297,21 @@ def add_livestock(request):
         if not breed or not species or not image or not age or not weight or not health or not location or not price or not phone:
             return render(request, 'addlive.html', {
                 'error': 'Please fill in all required fields.'
+            })
+
+        if float(price) < 0:
+            return render(request, 'addlive.html', {
+                'error': 'Price cannot be negative. Please insert a positive value.'
+            })
+
+        if float(weight) < 0:
+            return render(request, 'addlive.html', {
+                'error': 'Weight cannot be negative. Please insert a positive value.'
+            })
+
+        if '-' in age_input:
+            return render(request, 'addlive.html', {
+                'error': 'Age cannot be negative. Please insert a positive value.'
             })
 
         livestock = Livestock.objects.create(
