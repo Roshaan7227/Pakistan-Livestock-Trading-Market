@@ -362,6 +362,7 @@ def contact_view(request):
         phone = request.POST.get('phone')
         message = request.POST.get('message')
         Contact.objects.create(
+            user=request.user if request.user.is_authenticated else None,
             name=name,
             email=email,
             phone=phone,

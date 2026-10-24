@@ -74,8 +74,15 @@ class LivestockGallery(models.Model):
 
 
 class Contact(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='contacts',
+    )
     name = models.CharField(max_length=100)
-    email = models.EmailField()
+    email = models.EmailField(max_length=254)
     phone = models.CharField(max_length=13)
     message = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
